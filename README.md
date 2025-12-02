@@ -1,4 +1,7 @@
-# API DOCUMENTATION
+# CareerSpark
+## About
+
+## API DOCUMENTATION
 | Endpoint | Description |
 | --- | --- |
 | `POST /auth/register`  | This endpoint allows candidate create their account           |
