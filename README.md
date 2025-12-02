@@ -22,6 +22,8 @@ The system provides a smooth user experience with strong security, scalability, 
 - **Database:** PostgreSQL
 - **Other:** Docker, REST API, Email service (for verification)
 
+<br>
+
 ## API DOCUMENTATION
 | Endpoint | Description |
 | --- | --- |
