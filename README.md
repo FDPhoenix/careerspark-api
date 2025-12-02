@@ -25,10 +25,10 @@ The system provides a smooth user experience with strong security, scalability, 
 <br>
 
 ## API DOCUMENTATION
-| Endpoint | Description |
-| --- | --- |
-| `POST /auth/register`  | This endpoint allows candidate create their account           |
-| `POST /auth/login`     | Allows users to log into the system using the created account |
-| `POST /logout`         | Allows users to log out of the system.                        |
-| `GET /jobs`            | View all available jobs                                       |
-| `GET /job/:id`         | View details about a specific job                             |
+| Endpoint              | Description                                                   |
+|-----------------------|---------------------------------------------------------------|
+| `POST /auth/register` | This endpoint allows candidate create their account           |
+| `POST /auth/login`    | Allows users to log into the system using the created account |
+| `POST /logout`        | Allows users to log out of the system.                        |
+| `GET /jobs`           | View all available jobs                                       |
+| `GET /job/:id`        | View details about a specific job                             |
