@@ -19,7 +19,7 @@ CREATE INDEX IF NOT EXISTS idx_jobs_sector ON jobs(sector_id);
 CREATE INDEX IF NOT EXISTS idx_jobs_position ON jobs(position_id);
 CREATE INDEX IF NOT EXISTS idx_jobs_remote ON jobs(is_remote) WHERE is_remote = TRUE;
 
--- Index for filter job (IT + Remote + Lương + Position)
+-- Index for filter job (IT + Remote + Salary + Position)
 CREATE INDEX IF NOT EXISTS idx_jobs_hot_filter ON jobs(sector_id, position_id, job_type, is_remote, salary_min) WHERE status = 'active';
 
 -- 4. Job Sectors (many-to-many)

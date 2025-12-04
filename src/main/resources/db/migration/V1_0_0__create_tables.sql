@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS users (
     is_active 				BOOLEAN NOT NULL DEFAULT TRUE,
     created_at 				TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at 				TIMESTAMPTZ NOT NULL DEFAULT now()
-    );
+);
 
 -- 2. Candidate Profiles
 CREATE TABLE IF NOT EXISTS candidate_profiles (
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS candidate_profiles (
     resume_url      		TEXT,
     created_at      		TIMESTAMPTZ DEFAULT NOW(),
     updated_at      		TIMESTAMPTZ DEFAULT NOW()
-    );
+);
 
 -- 3. Companies
 CREATE TABLE IF NOT EXISTS companies (
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS companies (
     is_verified     		BOOLEAN DEFAULT FALSE,
     created_at      		TIMESTAMPTZ DEFAULT NOW(),
     updated_at      		TIMESTAMPTZ DEFAULT NOW()
-    );
+);
 
 -- 4. Location
 CREATE TABLE IF NOT EXISTS locations (
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS locations (
     address 				TEXT,
     lat 					NUMERIC(9,6),
     lng 					NUMERIC(9,6)
-    );
+);
 
 -- 5. Sectors (Chỉ những ngành ví dụ như là IT, Marketing, )
 CREATE TABLE IF NOT EXISTS sectors (
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS sectors (
     description 			TEXT,
     sort_order  			INTEGER DEFAULT 0,
     is_available		   	BOOLEAN DEFAULT TRUE
-    );
+);
 
 -- 6. Position (Con của sector, chỉ những vị trí cụ thể trong ngành)
 CREATE TABLE IF NOT EXISTS positions (
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS positions (
     sector_id 				UUID REFERENCES sectors(id),
     sort_order  			INTEGER DEFAULT 0,
     is_available   			BOOLEAN DEFAULT TRUE
-    );
+);
 
 -- 7. Jobs
 CREATE TABLE IF NOT EXISTS jobs (
@@ -108,20 +108,20 @@ CREATE TABLE IF NOT EXISTS jobs (
     posted_at           	TIMESTAMPTZ DEFAULT NOW(),
     updated_at          	TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE(company_id, slug)
-    );
+);
 
 -- 8. Job Sector (Bảng phụ tạo ra do mối quan hệ nhiều nhiều giữa bảng jobs và sector)
 CREATE TABLE IF NOT EXISTS job_sectors (
     job_id      			UUID REFERENCES jobs(id) ON DELETE CASCADE,
     sector_id				UUID REFERENCES sectors(id) ON DELETE CASCADE,
     PRIMARY KEY (job_id, sector_id)
-    );
+);
 
 -- 9. Skills
 CREATE TABLE IF NOT EXISTS skills (
     id          			UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name        			TEXT UNIQUE NOT NULL
-    );
+);
 
 -- 10. Candidate Skills
 CREATE TABLE IF NOT EXISTS candidate_skills (
@@ -129,14 +129,14 @@ CREATE TABLE IF NOT EXISTS candidate_skills (
     skill_id    			UUID REFERENCES skills(id) ON DELETE CASCADE,
     level 					TEXT CHECK (level IN ('beginner','intermediate','advanced','expert')),
     PRIMARY KEY (candidate_id, skill_id)
-    );
+);
 
 -- 11. Job Required Skills
 CREATE TABLE IF NOT EXISTS job_required_skills (
     job_id      			UUID REFERENCES jobs(id) ON DELETE CASCADE,
     skill_id    			UUID REFERENCES skills(id) ON DELETE CASCADE,
     PRIMARY KEY (job_id, skill_id)
-    );
+);
 
 -- 12. Work Experiences
 CREATE TABLE IF NOT EXISTS work_experiences (
@@ -150,7 +150,7 @@ CREATE TABLE IF NOT EXISTS work_experiences (
     description     		TEXT,
     created_at      		TIMESTAMPTZ DEFAULT NOW(),
     updated_at      		TIMESTAMPTZ DEFAULT NOW()
-    );
+);
 
 -- 13. Education
 CREATE TABLE IF NOT EXISTS educations (
@@ -164,7 +164,7 @@ CREATE TABLE IF NOT EXISTS educations (
     grade          			TEXT,
     description     		TEXT,
     created_at      		TIMESTAMPTZ DEFAULT NOW()
-    );
+);
 
 -- 14. Applications
 CREATE TABLE IF NOT EXISTS applications (
@@ -177,7 +177,7 @@ CREATE TABLE IF NOT EXISTS applications (
     applied_at      		TIMESTAMPTZ DEFAULT NOW(),
     updated_at      		TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE(job_id, candidate_id)
-    );
+);
 
 -- 15. Save Jobs
 CREATE TABLE IF NOT EXISTS saved_jobs (
@@ -185,7 +185,7 @@ CREATE TABLE IF NOT EXISTS saved_jobs (
     job_id      			UUID REFERENCES jobs(id) ON DELETE CASCADE,
     saved_at    			TIMESTAMPTZ DEFAULT NOW(),
     PRIMARY KEY (candidate_id, job_id)
-    );
+);
 
 -- 16. Company Followers
 CREATE TABLE IF NOT EXISTS company_followers (
@@ -193,7 +193,7 @@ CREATE TABLE IF NOT EXISTS company_followers (
     company_id  			UUID REFERENCES companies(id) ON DELETE CASCADE,
     followed_at 			TIMESTAMPTZ DEFAULT NOW(),
     PRIMARY KEY (candidate_id, company_id)
-    );
+);
 
 -- 17. Job Views
 CREATE TABLE IF NOT EXISTS job_views (
@@ -202,4 +202,4 @@ CREATE TABLE IF NOT EXISTS job_views (
     candidate_id   			UUID REFERENCES users(id),
     ip_address  			INET,
     viewed_at   			TIMESTAMPTZ DEFAULT NOW()
-    );
+);
