@@ -30,6 +30,6 @@ public class SavedJob {
 
 @Data
 class SavedJobId implements Serializable {
-    private UUID candidateId;
-    private UUID jobId;
+    private UUID candidate;
+    private UUID job;
 }

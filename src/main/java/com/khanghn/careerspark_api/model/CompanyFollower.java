@@ -30,6 +30,6 @@ public class CompanyFollower {
 
 @Data
 class CompanyFollowerId implements Serializable {
-    private UUID candidateId;
-    private UUID companyId;
+    private UUID candidate;
+    private UUID company;
 }

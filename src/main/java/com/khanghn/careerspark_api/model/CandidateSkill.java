@@ -31,7 +31,7 @@ public class CandidateSkill {
 
 @Data
 class CandidateSkillId implements Serializable {
-    private UUID candidateId;
-    private UUID skillId;
+    private UUID candidate;
+    private UUID skill;
 }
 
