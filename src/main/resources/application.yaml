@@ -2,6 +2,11 @@ server:
   port: 8080
   forward-headers-strategy: native
 
+jwt:
+  secret: ${JWT_SECRET}
+  access-expiration-ms: 900000                    # 15 minutes
+  refresh-expiration-ms: 15552000000              # 180 days
+
 spring:
   application:
     name: careerspark-api
@@ -17,12 +22,14 @@ spring:
       # disable hibernate auto DDL to let flyway manage the schema
       ddl-auto: none
     show-sql: true
+    open-in-view: false
 
   mail:
     host: ${MAIL_HOST}
     port: ${MAIL_PORT}
     username: ${MAIL_USERNAME}
     password: ${MAIL_PASSWORD}
+    template-path: ${MAIL_TEMPLATE_PATH}
     properties:
       mail:
         smtp:

@@ -11,6 +11,7 @@ import java.util.UUID;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "companies")
@@ -42,9 +43,7 @@ public class Company {
     private boolean isVerified = false;
 
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Instant createdAt;
-
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Instant createdAt = Instant.now();
     private Instant updatedAt;
 
     @OneToMany(mappedBy = "company")

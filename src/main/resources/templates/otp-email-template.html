@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerSpark</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) translateX(0px);
+            }
+
+            50% {
+                transform: translateY(-20px) translateX(-20px);
+            }
+        }
+
+        .footer p {
+            color: #4b5563;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-link:hover {
+            color: #f97316;
+        }
+
+        u+.body .gmail-fix {
+            display: none !important;
+        }
+
+        .ExternalClass {
+            width: 100%;
+        }
+
+        .ExternalClass,
+        .ExternalClass p,
+        .ExternalClass span,
+        .ExternalClass font,
+        .ExternalClass td,
+        .ExternalClass div {
+            line-height: 100%;
+        }
+
+        a[x-apple-data-detectors] {
+            color: inherit !important;
+            text-decoration: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="width: 100%; max-width: 42rem; margin: 0 auto; padding: 1rem;">
+        <div class="header"
+            style="background-color: white; border-radius: 1.5rem; overflow: hidden; border:1px solid #e5e7eb;">
+            <div
+                style="background: linear-gradient(135deg, #9d4edd 0%, #5a189a 50%, #3c096c 100%); padding: 40px 30px; text-align: center; position: relative; overflow: hidden;">
+                <div class="header-blur"></div>
+
+                <div style="position: relative; z-index: 10;">
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td align="center">
+                                <table role="presentation" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td align="center">
+                                            <img src="https://res.cloudinary.com/dipl3mf0c/image/upload/v1765347491/logo_2_vj7qsf.png"
+                                                 width="45"
+                                                 height="45"
+                                                 alt="logo"
+                                                 style="display:block;" />
+                                        </td>
+                                        <td align="center" style="padding-left: 8px;">
+                                            <h1 style="font-size: 2rem; font-weight: bold; font-family: Georgia, serif; color: white; margin: 0;">
+                                                CareerSpark
+                                            </h1>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div style="padding: 3rem 2rem; text-align: center;">
+                <div>
+                    <img style="width: 10rem; height: 10rem; margin: 0 auto 2rem; display: flex; align-items: center; justify-content: center;"
+                        src="https://res.cloudinary.com/dipl3mf0c/image/upload/v1765293686/otp-shield-removebg-preview_b6cuoc.png"
+                        alt="Security Shield" />
+                </div>
+
+                <h2
+                    style="font-size: 1.875rem; font-weight: bold; color: #111827; margin-bottom: 0.75rem; letter-spacing: -0.02em;">
+                    Verify Your Account</h2>
+                <p style="color: #4b5563; font-size: 0.875rem;">Enter this code to complete your sign-up</p>
+
+                <div style="margin: 2rem 0;">
+                    <label
+                        style="display: block; font-size: 0.75rem; font-weight: bold; color: #6b7280; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem;">Your
+                        Verification Code</label>
+
+                    <div
+                        style="display: inline-block; background: linear-gradient(to bottom right, #f3e8ff, #ede9fe); padding: 1.5rem 3rem; border-radius: 1rem; border: 2px solid #e9d5ff; box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);">
+                        <code
+                            style="font-size: 2.25rem; font-weight: bold; color: #9333ea; letter-spacing: 0.1em; font-family: monospace;">{{OTP}}</code>
+                    </div>
+
+                    <div style="color: #b45309; font-weight: 600; margin-top: 1rem; font-size: 1rem;">⏱️ Code
+                        expires in {{EXPIRE_MINUTES}} minutes</div>
+                </div>
+
+                <div
+                    style="margin-top: 2.5rem; background: linear-gradient(to right, #f3e8ff, #ede9fe); padding: 1.5rem; border-radius: 1rem; border-left: 4px solid #9333ea;">
+                    <div style="color: #111827; font-weight: bold; margin-bottom: 0.5rem; text-align: left;">🛡️
+                        Security Notice</div>
+                    <p style="color: #374151; font-size: 0.875rem; text-align: left; line-height: 1.625;">
+                        Never share this code with anyone. CareerSpark staff will never ask for your verification code
+                        via
+                        email or phone.
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer"
+                style="background-color: #f9fafb; padding: 2rem; text-align: center; border-top: 1px solid #e5e7eb;">
+                <p>© 2025 CareerSpark. All rights reserved.</p>
+                <p>
+                    Having trouble?
+                    <a href="#" class="footer-link"
+                        style="color: #9333ea; font-weight: 600; text-decoration: none; transition: color 0.2s;">
+                        Contact Support
+                    </a>
+                </p>
+
+                <table style="margin-top: 1rem;" role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td align="center">
+                            <a href="#"
+                                style="margin:0 6px; display:inline-block; width:36px; height:36px; line-height:36px; border-radius:50%; background:#9333ea; color:#fff; text-decoration:none; font-weight:bold;">f</a>
+
+                            <a href="#"
+                                style="margin:0 6px; display:inline-block; width:36px; height:36px; line-height:36px; border-radius:50%; background:#9333ea; color:#fff; text-decoration:none; font-weight:bold;">𝕏</a>
+
+                            <a href="#"
+                                style="margin:0 6px; display:inline-block; width:36px; height:36px; line-height:36px; border-radius:50%; background:#9333ea; color:#fff; text-decoration:none; font-weight:bold;">in</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

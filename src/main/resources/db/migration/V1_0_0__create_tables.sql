@@ -7,14 +7,14 @@ CREATE TABLE IF NOT EXISTS users (
     id    					UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     email 					CITEXT UNIQUE NOT NULL,
     password_hash	 		TEXT NOT NULL,
-    role 					TEXT NOT NULL CHECK (role in ('candidate', 'recruiter', 'admin')),
+    role 					TEXT NOT NULL CHECK (role in ('CANDIDATE', 'RECRUITER', 'ADMIN')),
     full_name 				TEXT,
     phone 					TEXT,
     avatar_url 				TEXT,
     is_verified 			BOOLEAN NOT NULL DEFAULT FALSE,
     is_active 				BOOLEAN NOT NULL DEFAULT TRUE,
-    created_at 				TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at 				TIMESTAMPTZ NOT NULL DEFAULT now()
+    created_at 				TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at 				TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- 2. Candidate Profiles
@@ -28,8 +28,8 @@ CREATE TABLE IF NOT EXISTS candidate_profiles (
     years_of_exp    		INTEGER DEFAULT 0,
     is_open_to_work 		BOOLEAN DEFAULT TRUE,
     resume_url      		TEXT,
-    created_at      		TIMESTAMPTZ DEFAULT NOW(),
-    updated_at      		TIMESTAMPTZ DEFAULT NOW()
+    created_at      		TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at      		TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 -- 3. Companies
@@ -44,8 +44,8 @@ CREATE TABLE IF NOT EXISTS companies (
     location_id 			UUID,
     created_by      		UUID REFERENCES users(id),   								-- người tạo công ty (admin công ty)
     is_verified     		BOOLEAN DEFAULT FALSE,
-    created_at      		TIMESTAMPTZ DEFAULT NOW(),
-    updated_at      		TIMESTAMPTZ DEFAULT NOW()
+    created_at      		TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at      		TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 -- 4. Location
@@ -92,9 +92,9 @@ CREATE TABLE IF NOT EXISTS jobs (
     requirements        	TEXT,
     benefits            	TEXT,
     location_id				UUID REFERENCES locations(id),
-    job_type            	TEXT NOT NULL CHECK (job_type IN ('full-time', 'part-time', 'contract', 'internship', 'remote', 'hybrid')),
+    job_type            	TEXT NOT NULL CHECK (job_type IN ('FULL_TIME', 'PART_TIME', 'CONTRACT', 'INTERNSHIP', 'REMOTE', 'HYBRID')),
     is_remote 				BOOLEAN DEFAULT FALSE,
-    experience_level    	TEXT CHECK (experience_level IN ('intern', 'junior', 'middle', 'senior', 'leader', 'manager', 'executive')),
+    experience_level    	TEXT CHECK (experience_level IN ('INTERN', 'JUNIOR', 'MIDDLE', 'SENIOR', 'LEADER', 'MANAGER', 'EXECUTIVE')),
     years_of_exp_min      	INTEGER,
     years_of_exp_max      	INTEGER,
     salary_min          	INTEGER,                 									-- VND triệu
@@ -102,11 +102,11 @@ CREATE TABLE IF NOT EXISTS jobs (
     salary_currency     	TEXT DEFAULT 'VND',
     is_salary_visible   	BOOLEAN DEFAULT TRUE,
     available_until			DATE,
-    status              	TEXT DEFAULT 'active' CHECK (status IN ('draft', 'active', 'paused', 'closed', 'expired')),
+    status              	TEXT DEFAULT 'active' CHECK (status IN ('DRAFT', 'ACTIVE', 'PAUSED', 'CLOSED', 'EXPIRED')),
     views_count         	BIGINT DEFAULT 0,
     posted_by           	UUID REFERENCES users(id),
-    posted_at           	TIMESTAMPTZ DEFAULT NOW(),
-    updated_at          	TIMESTAMPTZ DEFAULT NOW(),
+    posted_at           	TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at          	TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(company_id, slug)
 );
 
@@ -127,7 +127,7 @@ CREATE TABLE IF NOT EXISTS skills (
 CREATE TABLE IF NOT EXISTS candidate_skills (
     candidate_id			UUID REFERENCES users(id) ON DELETE CASCADE,
     skill_id    			UUID REFERENCES skills(id) ON DELETE CASCADE,
-    level 					TEXT CHECK (level IN ('beginner','intermediate','advanced','expert')),
+    level 					TEXT CHECK (level IN ('BEGINNER','INTERMEDIATE','ADVANCED','EXPERT')),
     PRIMARY KEY (candidate_id, skill_id)
 );
 
@@ -148,8 +148,8 @@ CREATE TABLE IF NOT EXISTS work_experiences (
     start_date      		DATE NOT NULL,
     end_date        		DATE,
     description     		TEXT,
-    created_at      		TIMESTAMPTZ DEFAULT NOW(),
-    updated_at      		TIMESTAMPTZ DEFAULT NOW()
+    created_at      		TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at      		TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 -- 13. Education
@@ -163,7 +163,7 @@ CREATE TABLE IF NOT EXISTS educations (
     end_date        		DATE,
     grade          			TEXT,
     description     		TEXT,
-    created_at      		TIMESTAMPTZ DEFAULT NOW()
+    created_at      		TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 -- 14. Applications
@@ -173,9 +173,9 @@ CREATE TABLE IF NOT EXISTS applications (
     candidate_id			UUID REFERENCES users(id) ON DELETE CASCADE,
     resume_url				TEXT NOT NULL,
     cover_letter    		TEXT,
-    status          		TEXT DEFAULT 'applied' CHECK (status IN ('applied','reviewed','interview','offer','rejected','withdrawn')),
-    applied_at      		TIMESTAMPTZ DEFAULT NOW(),
-    updated_at      		TIMESTAMPTZ DEFAULT NOW(),
+    status          		TEXT DEFAULT 'APPLIED' CHECK (status IN ('APPLIED','REVIEWED','INTERVIEW','OFFER','REJECTED','WITHDRAWN')),
+    applied_at      		TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at      		TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(job_id, candidate_id)
 );
 
@@ -183,7 +183,7 @@ CREATE TABLE IF NOT EXISTS applications (
 CREATE TABLE IF NOT EXISTS saved_jobs (
     candidate_id   			UUID REFERENCES users(id) ON DELETE CASCADE,
     job_id      			UUID REFERENCES jobs(id) ON DELETE CASCADE,
-    saved_at    			TIMESTAMPTZ DEFAULT NOW(),
+    saved_at    			TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (candidate_id, job_id)
 );
 
@@ -191,7 +191,7 @@ CREATE TABLE IF NOT EXISTS saved_jobs (
 CREATE TABLE IF NOT EXISTS company_followers (
     candidate_id   			UUID REFERENCES users(id) ON DELETE CASCADE,
     company_id  			UUID REFERENCES companies(id) ON DELETE CASCADE,
-    followed_at 			TIMESTAMPTZ DEFAULT NOW(),
+    followed_at 			TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (candidate_id, company_id)
 );
 
@@ -201,5 +201,59 @@ CREATE TABLE IF NOT EXISTS job_views (
     job_id      			UUID REFERENCES jobs(id) ON DELETE CASCADE,
     candidate_id   			UUID REFERENCES users(id),
     ip_address  			INET,
-    viewed_at   			TIMESTAMPTZ DEFAULT NOW()
+    viewed_at   			TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 18. Subscription Packages
+CREATE TABLE IF NOT EXISTS subscription_packages (
+    id                      UUID PRIMARY KEY,
+    name                    TEXT NOT NULL,                                    -- (e.g., 'Basic', 'Premium'),
+    price                   INTEGER NOT NULL,                                 -- (VND)
+    job_post_limit          INTEGER,                                          -- Số job có thể post/tháng
+    duration_days           INTEGER,                                          -- Thời hạn gói (e.g., 30 ngày)
+    description             TEXT,
+    created_at              TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 19. User Subscriptions
+CREATE TABLE IF NOT EXISTS user_subscriptions (
+    id                      UUID PRIMARY KEY,
+    user_id                 UUID REFERENCES users(id),
+    package_id              UUID REFERENCES subscription_packages(id),
+    start_date              DATE NOT NULL,
+    end_date                DATE NOT NULL,
+    remaining_posts         INTEGER,                                           -- Số job còn lại
+    status                  TEXT CHECK (status IN ('ACTIVE', 'EXPIRED', 'CANCELLED')),
+    created_at              TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 20. Payments
+CREATE TABLE IF NOT EXISTS payments (
+    id                      UUID PRIMARY KEY,
+    user_id                 UUID,
+    subscription_id         UUID REFERENCES user_subscriptions(id),
+    amount                  INTEGER NOT NULL,
+    payment_method          TEXT,                                               -- (e.g., 'VNPAY', 'Credit Card'),
+    transaction_id          TEXT,                                               -- Từ gateway
+    status                  TEXT CHECK (status IN ('PENDING', 'SUCCESS', 'FAILED')),
+    paid_at                 TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 21. Verification
+CREATE TABLE IF NOT EXISTS verification_otps (
+    id                      UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id                 UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    otp                     TEXT NOT NULL UNIQUE,
+    expiry_date             TIMESTAMPTZ NOT NULL,
+    created_at              TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 22. Refresh Token
+CREATE TABLE IF NOT EXISTS refresh_tokens (
+    id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id         UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    token           TEXT NOT NULL UNIQUE,
+    expiry_date     TIMESTAMPTZ NOT NULL,
+    revoked         BOOLEAN DEFAULT FALSE,
+    created_at      TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );

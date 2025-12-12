@@ -9,6 +9,7 @@ import java.util.UUID;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @IdClass(SavedJobId.class)
@@ -25,7 +26,7 @@ public class SavedJob {
     private Job job;
 
     @Column(name = "saved_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Instant savedAt;
+    private Instant savedAt = Instant.now();
 }
 
 @Data

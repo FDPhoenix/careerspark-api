@@ -9,6 +9,7 @@ import java.util.UUID;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @IdClass(CompanyFollowerId.class)
@@ -24,8 +25,8 @@ public class CompanyFollower {
     @JoinColumn(name = "company_id")
     private Company company;
 
-    @Column(name = "followed_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Instant followedAt;
+    @Column(name = "followed_at")
+    private Instant followedAt = Instant.now();
 }
 
 @Data

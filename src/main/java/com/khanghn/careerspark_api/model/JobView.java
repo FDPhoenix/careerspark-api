@@ -7,6 +7,7 @@ import java.time.Instant;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "job_views")
@@ -27,5 +28,5 @@ public class JobView {
     private String ipAddress;
 
     @Column(name = "viewed_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Instant viewedAt;
+    private Instant viewedAt = Instant.now();
 }

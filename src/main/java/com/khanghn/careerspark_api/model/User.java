@@ -11,6 +11,7 @@ import java.util.UUID;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
@@ -33,16 +34,22 @@ public class User {
     private String fullName;
     private String phone;
     private String avatarUrl;
+
+    @Builder.Default
     private boolean isVerified = false;
+
+    @Builder.Default
     private boolean isActive = true;
 
+    @Builder.Default
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Instant createdAt;
+    private Instant createdAt = Instant.now();
 
+    @Builder.Default
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Instant updatedAt;
+    private Instant updatedAt = Instant.now();
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private CandidateProfile candidateProfile;
 
     @OneToMany(mappedBy = "postedBy", cascade = CascadeType.ALL)

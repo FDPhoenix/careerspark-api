@@ -11,6 +11,7 @@ import java.util.UUID;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "jobs")
@@ -80,9 +81,7 @@ public class Job {
     private User postedBy;
 
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Instant postedAt;
-
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Instant postedAt = Instant.now();
     private Instant updatedAt;
 
     @ManyToMany

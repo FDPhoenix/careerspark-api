@@ -46,5 +46,13 @@ CREATE INDEX IF NOT EXISTS idx_job_required_skills_skill ON job_required_skills(
 -- 9. Full-text search
 ALTER TABLE jobs ADD COLUMN IF NOT EXISTS search_vector TSVECTOR;
 UPDATE jobs SET search_vector = setweight(to_tsvector('english', coalesce(title, '')), 'A') || setweight(to_tsvector('english', coalesce(description, '')), 'B');
-
 CREATE INDEX IF NOT EXISTS idx_jobs_fts ON jobs USING GIN(search_vector);
+
+-- 10. Verification
+CREATE INDEX IF NOT EXISTS idx_verification_otp ON verification_otps(otp);
+CREATE INDEX IF NOT EXISTS idx_verification_user ON verification_otps(user_id);
+
+-- 11. Refresh Token
+CREATE INDEX IF NOT EXISTS idx_refresh_token ON refresh_tokens(token);
+CREATE INDEX IF NOT EXISTS idx_refresh_user ON refresh_tokens(user_id);
+CREATE INDEX IF NOT EXISTS idx_refresh_revoked ON refresh_tokens(revoked);

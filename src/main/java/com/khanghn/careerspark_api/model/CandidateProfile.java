@@ -2,6 +2,7 @@ package com.khanghn.careerspark_api.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import java.util.UUID;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "candidate_profiles")
@@ -32,13 +34,15 @@ public class CandidateProfile {
 
     private Integer salaryMin;
     private Integer salaryMax;
+
+    @Column(name = "years_of_exp")
     private Integer yearsOfExperience = 0;
-    private boolean openToWork = true;
+
+    @Column(name = "is_open_to_work")
+    private boolean isOpenToWork = true;
     private String resumeUrl;
 
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Instant createdAt;
-
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Instant createdAt = Instant.now();
     private Instant updatedAt;
 }

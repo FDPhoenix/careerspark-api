@@ -9,6 +9,7 @@ import java.util.UUID;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "applications")
@@ -34,7 +35,7 @@ public class Application {
     private ApplicationStatus status = ApplicationStatus.APPLIED;
 
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Instant appliedAt;
+    private Instant appliedAt = Instant.now();
     private Instant updatedAt;
 
     public enum ApplicationStatus { APPLIED, REVIEWED, INTERVIEW, OFFER, REJECTED, WITHDRAWN }

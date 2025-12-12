@@ -8,6 +8,7 @@ import java.util.UUID;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @IdClass(CandidateSkillId.class)

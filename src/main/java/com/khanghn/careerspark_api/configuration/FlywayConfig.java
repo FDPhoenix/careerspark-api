@@ -17,6 +17,9 @@ public class FlywayConfig {
     @Value("${spring.flyway.locations}")
     private String[] locations;
 
+    @Value("${spring.flyway.baseline-version}")
+    private String baselineVersion;
+
     @Value("${spring.datasource.url}")
     private String url;
 
@@ -41,6 +44,7 @@ public class FlywayConfig {
                 .dataSource(flywayDataSource())
                 .locations(locations)
                 .baselineOnMigrate(true)
+                .baselineVersion(baselineVersion)
                 .validateOnMigrate(false)
                 .failOnMissingLocations(false)
                 .load();
