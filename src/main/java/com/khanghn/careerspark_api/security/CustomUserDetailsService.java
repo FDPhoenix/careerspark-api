@@ -1,6 +1,5 @@
-package com.khanghn.careerspark_api.service.auth;
+package com.khanghn.careerspark_api.security;
 
-import com.khanghn.careerspark_api.model.CustomUserDetails;
 import com.khanghn.careerspark_api.model.User;
 import com.khanghn.careerspark_api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

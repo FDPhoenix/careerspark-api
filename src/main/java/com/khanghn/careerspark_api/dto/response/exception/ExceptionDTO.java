@@ -1,4 +1,4 @@
-package com.khanghn.careerspark_api.exception.handler;
+package com.khanghn.careerspark_api.dto.response.exception;
 
 import lombok.Data;
 import java.util.ArrayList;

@@ -61,12 +61,16 @@ public class AuthServiceImp  implements AuthService{
         User user = userRepository.findByEmailIgnoreCase(request.email())
                 .orElseThrow(() -> new EntityNotFoundException("User not found!"));
 
+        if (!passwordEncoder.matches(request.password(), user.getPasswordHash())) {
+            throw new BadRequestException("Wrong Password");
+        }
+
         if (!user.isVerified()) {
             throw new BadRequestException("Your account has not been verified. Please check your email.");
         }
 
-        if (!passwordEncoder.matches(request.password(), user.getPasswordHash())) {
-            throw new BadRequestException("Wrong Password");
+        if (!user.isActive()) {
+            throw new BadRequestException("Your account has been disabled. Please contact administrator.");
         }
 
         String refreshToken = jwtService.generateRefreshToken(user);

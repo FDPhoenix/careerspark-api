@@ -1,6 +1,6 @@
 package com.khanghn.careerspark_api.dto;
 
-import com.khanghn.careerspark_api.exception.handler.ExceptionDTO;
+import com.khanghn.careerspark_api.dto.response.exception.ExceptionDTO;
 
 public record ResponseObject<T> (T data, ExceptionDTO error) {
     public static <T> ResponseObject<T> success(T data) {

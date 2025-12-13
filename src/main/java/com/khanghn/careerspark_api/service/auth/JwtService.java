@@ -1,7 +1,7 @@
 package com.khanghn.careerspark_api.service.auth;
 
 import com.khanghn.careerspark_api.dto.response.auth.AccessToken;
-import com.khanghn.careerspark_api.model.CustomUserDetails;
+import com.khanghn.careerspark_api.security.CustomUserDetails;
 import com.khanghn.careerspark_api.model.RefreshToken;
 import com.khanghn.careerspark_api.model.User;
 import com.khanghn.careerspark_api.repository.RefreshTokenRepository;
@@ -105,10 +105,10 @@ public class JwtService {
 
             return userIdFromToken.equals(userIdFromDetails.toString()) && notExpired;
         } catch (ExpiredJwtException e) {
-            log.debug("Token expired: {}", e.getMessage());
+            log.error("Token expired: {}", e.getMessage());
             return false;
         } catch (Exception e) {
-            log.warn("Invalid JWT token: {}", e.toString());
+            log.error("Invalid JWT token: {}", e.toString());
             return false;
         }
     }

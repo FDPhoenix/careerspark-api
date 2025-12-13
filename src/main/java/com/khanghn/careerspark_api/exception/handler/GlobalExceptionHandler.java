@@ -1,10 +1,9 @@
 package com.khanghn.careerspark_api.exception.handler;
 
 import com.khanghn.careerspark_api.dto.ResponseObject;
+import com.khanghn.careerspark_api.dto.response.exception.ExceptionDTO;
 import com.khanghn.careerspark_api.exception.black.BadRequestException;
 import com.khanghn.careerspark_api.exception.black.UnauthorizedException;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -24,16 +23,6 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseObject<ExceptionDTO> handleNotFound(EntityNotFoundException ex) {
         return ResponseObject.error(new ExceptionDTO("404", ex.getMessage()));
-    }
-
-    @ExceptionHandler(ExpiredJwtException.class)
-    public ResponseObject<ExceptionDTO> handleJwtExpired(ExpiredJwtException ex) {
-        return ResponseObject.error(new ExceptionDTO("401", ex.getMessage()));
-    }
-
-    @ExceptionHandler(JwtException.class)
-    public ResponseObject<ExceptionDTO> handleJwtException(JwtException ex) {
-        return ResponseObject.error(new ExceptionDTO("401", ex.getMessage()));
     }
 
     @ExceptionHandler(UnauthorizedException.class)

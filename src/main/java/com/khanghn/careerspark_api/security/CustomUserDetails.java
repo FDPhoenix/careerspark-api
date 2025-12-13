@@ -1,5 +1,6 @@
-package com.khanghn.careerspark_api.model;
+package com.khanghn.careerspark_api.security;
 
+import com.khanghn.careerspark_api.model.User;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,7 +23,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public @NonNull Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(user.getRole().name()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()));
     }
 
     @Override

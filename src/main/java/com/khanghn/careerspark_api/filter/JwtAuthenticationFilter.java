@@ -1,9 +1,7 @@
 package com.khanghn.careerspark_api.filter;
 
-import com.khanghn.careerspark_api.model.CustomUserDetails;
-import com.khanghn.careerspark_api.service.auth.CustomUserDetailsService;
+import com.khanghn.careerspark_api.security.CustomUserDetailsService;
 import com.khanghn.careerspark_api.service.auth.JwtService;
-import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,12 +12,13 @@ import org.jspecify.annotations.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+
+import static com.khanghn.careerspark_api.security.PublicEndpoints.PERMIT_ENDPOINT_LIST;
 
 @Slf4j
 @Component
@@ -50,20 +49,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 }
             }
-        } catch (ExpiredJwtException e) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType("application/json");
-            response.getWriter().write("""
-                    {
-                        "error": "Access token expired",
-                        "message": "Please refresh token"
-                    }
-                    """);
-            response.setHeader("X-Token-Expired", "true");
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            log.error(e.getMessage(), e);
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    @Override
+    protected boolean shouldNotFilter(@NonNull HttpServletRequest request) {
+        return PERMIT_ENDPOINT_LIST.contains(request.getServletPath());
     }
 }

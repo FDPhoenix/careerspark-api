@@ -200,7 +200,6 @@ CREATE TABLE IF NOT EXISTS job_views (
     id          			BIGSERIAL PRIMARY KEY,
     job_id      			UUID REFERENCES jobs(id) ON DELETE CASCADE,
     candidate_id   			UUID REFERENCES users(id),
-    ip_address  			INET,
     viewed_at   			TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
