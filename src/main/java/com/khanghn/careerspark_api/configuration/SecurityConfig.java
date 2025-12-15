@@ -6,6 +6,7 @@ import com.khanghn.careerspark_api.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -14,24 +15,33 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 
-import static com.khanghn.careerspark_api.security.PublicEndpoints.PERMIT_ENDPOINTS;
-import static com.khanghn.careerspark_api.security.PublicEndpoints.SWAGGER_UI_ENDPOINTS;
+import static com.khanghn.careerspark_api.security.PublicEndpoints.*;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final String[] GENERAL_ENDPOINTS = {
-            "/nothing"
+    private static final String[] SWAGGER_UI_ENDPOINTS = {
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html"
     };
 
-    private final String[] ADMIN_ENDPOINTS = {
-            "/user/"
+    private static final PathPatternRequestMatcher[] GENERAL_ENDPOINTS = {
+            PathPatternRequestMatcher.pathPattern(HttpMethod.GET, "/nothing/**"),
     };
 
-    private final String[] RECRUITER_ENDPOINTS = {
-            "/nothing/also"
+    private static final PathPatternRequestMatcher[] ADMIN_ENDPOINTS = {
+            PathPatternRequestMatcher.pathPattern(HttpMethod.POST, "/packages/"),
+            PathPatternRequestMatcher.pathPattern(HttpMethod.PUT, "/packages/**"),
+            PathPatternRequestMatcher.pathPattern(HttpMethod.DELETE, "/packages/**"),
+            PathPatternRequestMatcher.pathPattern(HttpMethod.DELETE, "/users/"),
+    };
+
+    private static final PathPatternRequestMatcher[] RECRUITER_ENDPOINTS = {
+            PathPatternRequestMatcher.pathPattern(HttpMethod.GET, "/nothing/also"),
     };
 
     @Bean
@@ -39,9 +49,9 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(PERMIT_ENDPOINTS).permitAll()
+                        .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
                         .requestMatchers(SWAGGER_UI_ENDPOINTS).permitAll()
-                        .requestMatchers(GENERAL_ENDPOINTS).hasAnyRole("RECRUITER", "ADMIN")
+                        .requestMatchers(GENERAL_ENDPOINTS).hasAnyRole("ADMIN", "RECRUITER")
                         .requestMatchers(ADMIN_ENDPOINTS).hasRole("ADMIN")
                         .requestMatchers(RECRUITER_ENDPOINTS).hasRole("RECRUITER")
                         .anyRequest().authenticated()

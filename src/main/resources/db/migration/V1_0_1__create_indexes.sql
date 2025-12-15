@@ -55,4 +55,4 @@ CREATE INDEX IF NOT EXISTS idx_verification_user ON verification_otps(user_id);
 -- 11. Refresh Token
 CREATE INDEX IF NOT EXISTS idx_refresh_token ON refresh_tokens(token);
 CREATE INDEX IF NOT EXISTS idx_refresh_user ON refresh_tokens(user_id);
-CREATE INDEX IF NOT EXISTS idx_refresh_revoked ON refresh_tokens(revoked);
+CREATE INDEX IF NOT EXISTS idx_refresh_revoked ON refresh_tokens(is_revoked);

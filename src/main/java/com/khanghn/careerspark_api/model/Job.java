@@ -61,20 +61,33 @@ public class Job {
     @Enumerated(EnumType.STRING)
     @Column(name = "experience_level")
     private ExperienceLevel experienceLevel;
-
     private Integer yearsOfExpMin;
     private Integer yearsOfExpMax;
+
     private Integer salaryMin;
     private Integer salaryMax;
-    private String salaryCurrency = "VND";
-    private boolean isSalaryVisible = true;
-    private Instant availableUntil;
 
+    @Builder.Default
+    private String salaryCurrency = "VND";
+
+    @Builder.Default
+    private boolean isSalaryVisible = true;
+
+    @Builder.Default
+    @Column(name = "display_days", nullable = false)
+    private Integer displayDays = 30;
+
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     private JobStatus status = JobStatus.ACTIVE;
 
+    @Builder.Default
     @Column(name = "views_count")
     private long viewsCount = 0;
+
+    @Builder.Default
+    @Column(name = "is_featured")
+    private boolean isFeatured = false;
 
     @ManyToOne
     @JoinColumn(name = "posted_by")
@@ -82,6 +95,11 @@ public class Job {
 
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Instant postedAt = Instant.now();
+
+    @Column(name = "expires_at")
+    private Instant expiresAt;
+
+    @Column(name = "updated_at")
     private Instant updatedAt;
 
     @ManyToMany

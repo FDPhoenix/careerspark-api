@@ -2,8 +2,10 @@ package com.khanghn.careerspark_api.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -13,8 +15,8 @@ import java.time.Instant;
 @Table(name = "job_views")
 public class JobView {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @UuidGenerator
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "job_id")
@@ -23,9 +25,6 @@ public class JobView {
     @ManyToOne
     @JoinColumn(name = "candidate_id")
     private User candidate;
-
-    @Column(name = "ip_address")
-    private String ipAddress;
 
     @Column(name = "viewed_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Instant viewedAt = Instant.now();

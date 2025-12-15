@@ -4,16 +4,12 @@ import com.khanghn.careerspark_api.dto.ResponseObject;
 import com.khanghn.careerspark_api.dto.request.auth.LoginRequest;
 import com.khanghn.careerspark_api.dto.request.auth.RefreshRequest;
 import com.khanghn.careerspark_api.dto.request.auth.RegisterRequest;
+import com.khanghn.careerspark_api.dto.response.auth.AccessToken;
 import com.khanghn.careerspark_api.dto.response.auth.AuthResponse;
-import com.khanghn.careerspark_api.dto.response.exception.ExceptionDTO;
 import com.khanghn.careerspark_api.service.auth.AuthService;
 import com.khanghn.careerspark_api.service.otp.VerificationOtpService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -43,20 +39,14 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseObject<AuthResponse> login(@Valid @RequestBody LoginRequest request){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if (auth != null && auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken)) {
-            return ResponseObject.error(new ExceptionDTO( String.valueOf(HttpStatus.FORBIDDEN.value()), "You are already logged in"));
-        }
-
         AuthResponse authResponse = authService.login(request);
         return ResponseObject.success(authResponse);
     }
 
     @PostMapping("/refresh")
-    public ResponseObject<AuthResponse> reissueAccessToken(@RequestBody RefreshRequest req) {
-        AuthResponse authResponse = authService.reissueAccessToken(req.refreshToken());
-        return ResponseObject.success(authResponse);
+    public ResponseObject<AccessToken> reissueAccessToken(@RequestBody RefreshRequest req) {
+        AccessToken accessToken = authService.reissueAccessToken(req.refreshToken());
+        return ResponseObject.success(accessToken);
     }
 
     @PostMapping("/logout")

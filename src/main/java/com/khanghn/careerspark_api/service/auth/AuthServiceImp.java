@@ -37,19 +37,12 @@ public class AuthServiceImp  implements AuthService{
 
     @Override
     @Transactional
-    public void register(RegisterRequest register) {
-        if (userRepository.existsByEmailIgnoreCase(register.email())) {
+    public void register(RegisterRequest req) {
+        if (userRepository.existsByEmailIgnoreCase(req.email())) {
             throw new BadRequestException("Email Already Exists");
         }
 
-        User newUser = User.builder()
-                .email(register.email().toLowerCase())
-                .passwordHash(passwordEncoder.encode(register.password()))
-                .fullName(register.fullName())
-                .role(register.role() == null ? User.Role.CANDIDATE : register.role())
-                .isVerified(false)
-                .isActive(true)
-                .build();
+        User newUser = userMapper.registerRequestToUser(req);
         userRepository.save(newUser);
 
         String otp = verificationOtpService.generateVerificationOtp(newUser);
@@ -85,7 +78,7 @@ public class AuthServiceImp  implements AuthService{
     }
 
     @Override
-    public AuthResponse reissueAccessToken(String refreshToken) {
+    public AccessToken reissueAccessToken(String refreshToken) {
         RefreshToken token = refreshTokenRepository
                 .findByToken(refreshToken)
                 .orElseThrow(() -> new EntityNotFoundException("Refresh token not found!"));
@@ -95,14 +88,8 @@ public class AuthServiceImp  implements AuthService{
         if (token.getExpiryDate().isBefore(Instant.now())) throw new UnauthorizedException("Refresh token is expired!");
 
         User user = token.getUser();
-        UserResponse userResponse = userMapper.userToUserResponse(user);
-        AccessToken newAccessToken = jwtService.generateAccessToken(user);
 
-        return new AuthResponse(
-                newAccessToken,
-                refreshToken,
-                userResponse
-        );
+        return jwtService.generateAccessToken(user);
     }
 
     @Override

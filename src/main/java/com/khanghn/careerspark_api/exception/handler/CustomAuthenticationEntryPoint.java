@@ -20,12 +20,24 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
     @Override
     public void commence(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull AuthenticationException authException) throws IOException {
+        String jwtError = (String) request.getAttribute("JWT_ERROR");
+        String defaultCode = "UNAUTHORIZED";
+        String defaultMessage = "No token provided!";
+
+        if ("EXPIRED".equals(jwtError)) {
+            defaultCode = "TOKEN_EXPIRED";
+            defaultMessage = "Access token has expired!";
+        } else if ("INVALID".equals(jwtError)) {
+            defaultCode = "INVALID_TOKEN";
+            defaultMessage = "Token is invalid!";
+        }
+
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json");
 
         Map<String, Object> body = new LinkedHashMap<>();
-        body.put("code", "401");
-        body.put("message", "Access token expired. Please refresh token");
+        body.put("code", defaultCode);
+        body.put("message", defaultMessage);
         objectMapper.writeValue(response.getOutputStream(), body);
     }
 }

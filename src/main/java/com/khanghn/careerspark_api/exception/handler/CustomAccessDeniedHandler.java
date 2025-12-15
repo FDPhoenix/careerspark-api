@@ -25,7 +25,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("code", "403");
-        body.put("message", "Access denied. Admin role required.");
+        body.put("message", accessDeniedException.getMessage());
         objectMapper.writeValue(response.getOutputStream(), body);
     }
 }

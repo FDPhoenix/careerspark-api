@@ -12,11 +12,11 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
     private final UserService userService;
 
-    @PutMapping("/change-password")
+    @PutMapping("/password")
     public ResponseObject<String> changePassword(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody ChangePasswordRequestDTO req){
         userService.changePassword(customUserDetails.getId(), req);
         return ResponseObject.success("Password changed successfully!");

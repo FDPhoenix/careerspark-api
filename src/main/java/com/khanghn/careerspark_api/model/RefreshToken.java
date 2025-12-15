@@ -29,6 +29,8 @@ public class RefreshToken {
     private String token;
 
     private Instant expiryDate;
-    private boolean revoked = false;
+
+    @Column(name = "is_revoked")
+    private boolean isRevoked = false;
     private Instant createdAt = Instant.now();
 }

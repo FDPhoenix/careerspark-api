@@ -2,6 +2,7 @@ package com.khanghn.careerspark_api.filter;
 
 import com.khanghn.careerspark_api.security.CustomUserDetailsService;
 import com.khanghn.careerspark_api.service.auth.JwtService;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,7 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-import static com.khanghn.careerspark_api.security.PublicEndpoints.PERMIT_ENDPOINT_LIST;
+import static com.khanghn.careerspark_api.security.PublicEndpoints.PUBLIC_ENDPOINT_LIST;
 
 @Slf4j
 @Component
@@ -49,8 +50,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 }
             }
+        } catch (ExpiredJwtException e) {
+            request.setAttribute("JWT_ERROR", "EXPIRED");
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            request.setAttribute("JWT_ERROR", "INVALID");
         }
 
         filterChain.doFilter(request, response);
@@ -58,6 +61,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(@NonNull HttpServletRequest request) {
-        return PERMIT_ENDPOINT_LIST.contains(request.getServletPath());
+        return PUBLIC_ENDPOINT_LIST
+                .stream()
+                .anyMatch(matcher -> matcher.matches(request));
     }
 }
