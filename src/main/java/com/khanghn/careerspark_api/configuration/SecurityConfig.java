@@ -41,7 +41,7 @@ public class SecurityConfig {
     };
 
     private static final PathPatternRequestMatcher[] RECRUITER_ENDPOINTS = {
-            PathPatternRequestMatcher.pathPattern(HttpMethod.GET, "/nothing/also"),
+            PathPatternRequestMatcher.pathPattern(HttpMethod.POST, "/companies/"),
     };
 
     @Bean

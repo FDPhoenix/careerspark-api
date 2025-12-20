@@ -5,6 +5,7 @@ import com.khanghn.careerspark_api.dto.request.subscription.SubscriptionPackageR
 import com.khanghn.careerspark_api.dto.request.subscription.SubscriptionPackageUpdateRequest;
 import com.khanghn.careerspark_api.dto.response.subscription.SubscriptionPackageResponse;
 import com.khanghn.careerspark_api.service.subscription.SubscriptionPackageService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -23,16 +24,19 @@ public class SubscriptionPackageController {
         return ResponseObject.success(subscriptionPackageService.getAllSubscriptionPackages());
     }
 
+    @SecurityRequirement(name = "bearerAuth")
     @PostMapping("/")
     public ResponseObject<SubscriptionPackageResponse> createSubscriptionPackage(@Valid @RequestBody SubscriptionPackageRequest req) {
         return ResponseObject.success(subscriptionPackageService.createSubscriptionPackage(req));
     }
 
+    @SecurityRequirement(name = "bearerAuth")
     @PutMapping("/")
     public ResponseObject<SubscriptionPackageResponse>  updateSubscriptionPackage(@RequestParam String id, @RequestBody SubscriptionPackageUpdateRequest req) {
         return ResponseObject.success(subscriptionPackageService.updateSubscriptionPackage(UUID.fromString(id), req));
     }
 
+    @SecurityRequirement(name = "bearerAuth")
     @DeleteMapping("/")
     public ResponseObject<String> deleteSubscriptionPackage(@RequestParam String id) {
         subscriptionPackageService.deleteSubscriptionPackage(UUID.fromString(id));

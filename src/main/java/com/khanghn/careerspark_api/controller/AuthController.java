@@ -8,6 +8,7 @@ import com.khanghn.careerspark_api.dto.response.auth.AccessToken;
 import com.khanghn.careerspark_api.dto.response.auth.AuthResponse;
 import com.khanghn.careerspark_api.service.auth.AuthService;
 import com.khanghn.careerspark_api.service.otp.VerificationOtpService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +50,7 @@ public class AuthController {
         return ResponseObject.success(accessToken);
     }
 
+    @SecurityRequirement(name = "bearerAuth")
     @PostMapping("/logout")
     public ResponseObject<String> logout(@RequestBody RefreshRequest req) {
         authService.logout(req.refreshToken());

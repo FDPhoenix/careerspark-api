@@ -17,12 +17,23 @@ CREATE TABLE IF NOT EXISTS users (
     updated_at 				    TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
--- 2. Candidate Profiles
+-- 2. Location
+CREATE TABLE IF NOT EXISTS locations (
+    id              		    UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    country 				    TEXT,
+    region 					    TEXT,
+    city 					    TEXT,
+    ward     				    TEXT,
+    lat 					    NUMERIC(9,6),
+    lng 					    NUMERIC(9,6)
+);
+
+-- 3. Candidate Profiles
 CREATE TABLE IF NOT EXISTS candidate_profiles (
     user_id         		    UUID PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
     title           		    TEXT,                        								-- VD: "Senior Fullstack Engineer"
     summary         		    TEXT,
-    location_id        		    UUID,                        								-- Tỉnh/Thành phố
+    location_id        		    UUID REFERENCES locations(id),                        								-- Tỉnh/Thành phố
     salary_min      		    INTEGER,                     								-- VND (triệu)
     salary_max      		    INTEGER,
     years_of_exp    		    INTEGER DEFAULT 0,
@@ -32,7 +43,7 @@ CREATE TABLE IF NOT EXISTS candidate_profiles (
     updated_at      		    TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
--- 3. Companies
+-- 4. Companies
 CREATE TABLE IF NOT EXISTS companies (
     id              		    UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name            		    TEXT NOT NULL,
@@ -40,24 +51,15 @@ CREATE TABLE IF NOT EXISTS companies (
     description 			    TEXT,
     logo_url 				    TEXT,
     founded_year    		    INTEGER,
-    size            		    TEXT CHECK (size IN ('1-10', '11-50', '51-200', '201-500', '501-1000', '1000+')),
-    location_id 			    UUID,
-    created_by      		    UUID REFERENCES users(id),   								-- người tạo công ty (admin công ty)
+    size            		    TEXT NOT NULL CHECK (size IN ('SMALL', 'MEDIUM', 'LARGE', 'XLARGE', 'HUGE', 'GIANT')),
+    location_id 			    UUID REFERENCES locations(id),
+    created_by      		    UUID REFERENCES users(id),
     is_verified     		    BOOLEAN DEFAULT FALSE,
     created_at      		    TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at      		    TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
--- 4. Location
-CREATE TABLE IF NOT EXISTS locations (
-    id              		    UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    country 				    TEXT,
-    region 					    TEXT,
-    city 					    TEXT,
-    address 				    TEXT,
-    lat 					    NUMERIC(9,6),
-    lng 					    NUMERIC(9,6)
-);
+
 
 -- 5. Sectors (Chỉ những ngành ví dụ như là IT, Marketing, )
 CREATE TABLE IF NOT EXISTS sectors (

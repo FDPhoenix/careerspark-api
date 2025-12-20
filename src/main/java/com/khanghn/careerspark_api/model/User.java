@@ -25,6 +25,7 @@ public class User {
 
     @EqualsAndHashCode.Include
     @Column(name = "password_hash", nullable = false)
+    @ToString.Exclude
     private String passwordHash;
 
     @Enumerated(EnumType.STRING)
@@ -52,7 +53,8 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private CandidateProfile candidateProfile;
 
-    @OneToMany(mappedBy = "postedBy", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "postedBy", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
     private Set<Job> postedJobs = new HashSet<>();
 
     public enum Role { CANDIDATE, RECRUITER, ADMIN }

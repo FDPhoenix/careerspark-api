@@ -43,6 +43,11 @@ public class AuthServiceImp  implements AuthService{
         }
 
         User newUser = userMapper.registerRequestToUser(req);
+        newUser.setPasswordHash(passwordEncoder.encode(req.password()));
+
+        System.out.println(req);
+        System.out.println("New User:" + newUser);
+
         userRepository.save(newUser);
 
         String otp = verificationOtpService.generateVerificationOtp(newUser);

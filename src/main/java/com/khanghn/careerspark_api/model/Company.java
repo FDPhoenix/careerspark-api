@@ -28,24 +28,35 @@ public class Company {
     private String logoUrl;
     private Integer foundedYear;
 
-    @Column(name = "size", columnDefinition = "TEXT CHECK (size IN ('1-10','11-50','51-200','201-500','501-1000','1000+'))")
-    private String size;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "size")
+    private Size size;
 
     @ManyToOne
     @JoinColumn(name = "location_id")
     private Location location;
 
     @ManyToOne
+    @ToString.Exclude
     @JoinColumn(name = "created_by")
     private User createdBy;
 
     @Column(name = "is_verified")
     private boolean isVerified = false;
 
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Builder.Default
+    @Column(name = "created_at")
     private Instant createdAt = Instant.now();
-    private Instant updatedAt;
+
+    @Builder.Default
+    @Column(name = "updated_at")
+    private Instant updatedAt =  Instant.now();
 
     @OneToMany(mappedBy = "company")
+    @ToString.Exclude
     private Set<Job> jobs = new HashSet<>();
+
+    public enum Size {
+        SMALL, MEDIUM, LARGE, XLARGE, HUGE, GIANT
+    }
 }

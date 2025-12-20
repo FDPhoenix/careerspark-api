@@ -21,10 +21,17 @@ public class Location {
     @UuidGenerator
     private UUID id;
 
+    @Column(name = "country")
     private String country;
+
+    @Column(name = "region")
     private String region;
+
+    @Column(name = "city")
     private String city;
-    private String address;
+
+    @Column(name = "ward")
+    private String ward;
 
     private BigDecimal lat;
     private BigDecimal lng;
