@@ -46,8 +46,6 @@ public class CompanyServiceImp implements CompanyService {
             throw new BadRequestException("Founded year exceeds current year!");
         }
 
-        System.out.println(req.location().toString());
-
         Location location = locationRepository
                 .findByCountryAndRegionAndCityAndWard(
                         req.location().country(),
@@ -67,8 +65,6 @@ public class CompanyServiceImp implements CompanyService {
         newCompany.setLocation(location);
         newCompany.setCreatedBy(creator);
         companyRepository.save(newCompany);
-
-        System.out.println(newCompany);
 
         return companyMapper.companyToCompanyResponse(newCompany);
     }
