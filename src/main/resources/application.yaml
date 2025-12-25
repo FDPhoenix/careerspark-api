@@ -4,6 +4,10 @@ server:
   servlet:
     context-path: /api
 
+app:
+  frontend:
+    url: ${FRONTEND_URL}
+
 jwt:
   secret: ${JWT_SECRET}
   access-expiration-ms: 900000                    # 15 minutes
@@ -25,6 +29,24 @@ spring:
       ddl-auto: none
     show-sql: true
     open-in-view: false
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - profile
+              - email
+            redirect-uri: "{baseUrl}/login/oauth2/code/google"
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            jwk-set-uri: https://www.googleapis.com/oauth2/v3/certs
 
   mail:
     host: ${MAIL_HOST}

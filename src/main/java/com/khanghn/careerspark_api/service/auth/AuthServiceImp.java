@@ -104,4 +104,14 @@ public class AuthServiceImp  implements AuthService{
             refreshTokenRepository.save(token);
         });
     }
+
+    @Override
+    public AuthResponse handleOAuth2Login(User user) {
+        AccessToken accessToken = jwtService.generateAccessToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
+
+        UserResponse userResponse = userMapper.userToUserResponse(user);
+
+        return new AuthResponse(accessToken, refreshToken, userResponse);
+    }
 }

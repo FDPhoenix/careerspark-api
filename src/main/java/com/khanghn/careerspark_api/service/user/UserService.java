@@ -1,6 +1,5 @@
 package com.khanghn.careerspark_api.service.user;
 
-import co.elastic.clients.elasticsearch.security.ChangePasswordRequest;
 import com.khanghn.careerspark_api.dto.request.user.ChangePasswordRequestDTO;
 import com.khanghn.careerspark_api.model.User;
 import org.springframework.stereotype.Service;

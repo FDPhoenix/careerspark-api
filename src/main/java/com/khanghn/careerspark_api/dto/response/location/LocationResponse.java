@@ -1,4 +1,4 @@
-package com.khanghn.careerspark_api.dto.request.location;
+package com.khanghn.careerspark_api.dto.response.location;
 
 import java.util.UUID;
 

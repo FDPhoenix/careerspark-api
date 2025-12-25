@@ -73,7 +73,7 @@ public class SubscriptionPackageServiceImp implements SubscriptionPackageService
         boolean isInUse = userSubscriptionRepository.existsBySubscriptionPackageId(id);
 
         if (isInUse) {
-            throw new IllegalStateException("Subscription package with id " + id + " is already in use!");
+            throw new BadRequestException("Subscription package with id " + id + " is already in use!");
         }
 
         subscriptionPackageRepository.delete(pkg);

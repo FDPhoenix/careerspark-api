@@ -71,6 +71,45 @@ public class CompanyServiceImp implements CompanyService {
 
     @Override
     public CompanyResponse updateCompany(UUID id, CompanyUpdateRequest req) {
-        return null;
+        Company existsCompany = companyRepository
+                .findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Company not found!"));
+
+        if (req.name() != null && !req.name().trim().isEmpty()) {
+            String newName = req.name().trim();
+            if (!existsCompany.getName().equalsIgnoreCase(newName)) {
+                if (companyRepository.existsByNameIgnoreCase(newName)) {
+                    throw new BadRequestException("Company's name already exists!");
+                }
+            }
+        }
+
+        if (req.founded_year() != null) {
+            if (req.founded_year() > LocalDate.now().getYear())
+                throw new BadRequestException("Founded year exceeds current year!");
+        }
+
+        companyMapper.updateFromRequest(req, existsCompany);
+
+        Location location = locationRepository
+                .findByCountryAndRegionAndCityAndWard(
+                        existsCompany.getLocation().getCountry(),
+                        existsCompany.getLocation().getRegion(),
+                        existsCompany.getLocation().getCity(),
+                        existsCompany.getLocation().getWard()
+                ).orElseGet(() -> {
+                        Location newLocation = Location.builder()
+                                .country(existsCompany.getLocation().getCountry())
+                                .region(existsCompany.getLocation().getRegion())
+                                .city(existsCompany.getLocation().getCity())
+                                .ward(existsCompany.getLocation().getWard())
+                                .build();
+                        return locationRepository.save(newLocation);
+                });
+
+        existsCompany.setLocation(location);
+        Company updateCompany = companyRepository.save(existsCompany);
+
+        return companyMapper.companyToCompanyResponse(updateCompany);
     }
 }

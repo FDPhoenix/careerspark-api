@@ -9,10 +9,12 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public final class PublicEndpoints {
-
     public static final PathPatternRequestMatcher[] PUBLIC_ENDPOINTS = {
             PathPatternRequestMatcher.pathPattern(HttpMethod.GET, "/packages/**"),
             PathPatternRequestMatcher.pathPattern(HttpMethod.GET, "/companies/**"),
+            PathPatternRequestMatcher.pathPattern(HttpMethod.GET, "/oauth2/**"),
+            PathPatternRequestMatcher.pathPattern(HttpMethod.GET, "/login/**"),
+            PathPatternRequestMatcher.pathPattern(HttpMethod.GET, "/auth/oauth2/**"),
             PathPatternRequestMatcher.pathPattern(HttpMethod.POST, "/auth/login"),
             PathPatternRequestMatcher.pathPattern(HttpMethod.POST, "/auth/register"),
             PathPatternRequestMatcher.pathPattern(HttpMethod.POST, "/auth/refresh"),

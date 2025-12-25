@@ -1,6 +1,6 @@
 package com.khanghn.careerspark_api.dto.response.company;
 
-import com.khanghn.careerspark_api.dto.request.location.LocationResponse;
+import com.khanghn.careerspark_api.dto.response.location.LocationResponse;
 import com.khanghn.careerspark_api.dto.response.user.UserResponse;
 import com.khanghn.careerspark_api.model.Company;
 
