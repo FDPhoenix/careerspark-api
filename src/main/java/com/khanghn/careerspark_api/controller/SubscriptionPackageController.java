@@ -4,6 +4,8 @@ import com.khanghn.careerspark_api.dto.ResponseObject;
 import com.khanghn.careerspark_api.dto.request.subscription.SubscriptionPackageRequest;
 import com.khanghn.careerspark_api.dto.request.subscription.SubscriptionPackageUpdateRequest;
 import com.khanghn.careerspark_api.dto.response.subscription.SubscriptionPackageResponse;
+import com.khanghn.careerspark_api.mapper.SubscriptionPackageMapper;
+import com.khanghn.careerspark_api.model.SubscriptionPackage;
 import com.khanghn.careerspark_api.service.subscription.SubscriptionPackageService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -18,26 +20,30 @@ import java.util.UUID;
 @RequestMapping("/packages")
 public class SubscriptionPackageController {
     private final SubscriptionPackageService subscriptionPackageService;
+    private final SubscriptionPackageMapper subscriptionPackageMapper;
 
     @GetMapping("/")
     public ResponseObject<List<SubscriptionPackageResponse>> getAllSubscriptionPackages() {
-        return ResponseObject.success(subscriptionPackageService.getAllSubscriptionPackages());
+        List<SubscriptionPackage> subscriptionPackages = subscriptionPackageService.getSubscriptionPackages();
+        return ResponseObject.success(subscriptionPackageMapper.subscriptionPackageListToSubscriptionPackageResponseList(subscriptionPackages));
     }
 
-    @SecurityRequirement(name = "bearerAuth")
     @PostMapping("/")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseObject<SubscriptionPackageResponse> createSubscriptionPackage(@Valid @RequestBody SubscriptionPackageRequest req) {
-        return ResponseObject.success(subscriptionPackageService.createSubscriptionPackage(req));
+        SubscriptionPackage newPackage = subscriptionPackageService.createSubscriptionPackage(req);
+        return ResponseObject.success(subscriptionPackageMapper.subscriptionPackageToSubscriptionPackageResponse(newPackage));
     }
 
-    @SecurityRequirement(name = "bearerAuth")
     @PutMapping("/")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseObject<SubscriptionPackageResponse>  updateSubscriptionPackage(@RequestParam String id, @RequestBody SubscriptionPackageUpdateRequest req) {
-        return ResponseObject.success(subscriptionPackageService.updateSubscriptionPackage(UUID.fromString(id), req));
+        SubscriptionPackage updatePackage = subscriptionPackageService.updateSubscriptionPackage(UUID.fromString(id), req);
+        return ResponseObject.success(subscriptionPackageMapper.subscriptionPackageToSubscriptionPackageResponse(updatePackage));
     }
 
-    @SecurityRequirement(name = "bearerAuth")
     @DeleteMapping("/")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseObject<String> deleteSubscriptionPackage(@RequestParam String id) {
         subscriptionPackageService.deleteSubscriptionPackage(UUID.fromString(id));
         return ResponseObject.success("Delete subscription package successfully");

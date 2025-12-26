@@ -2,7 +2,6 @@ package com.khanghn.careerspark_api.service.company;
 
 import com.khanghn.careerspark_api.dto.request.company.CompanyRequest;
 import com.khanghn.careerspark_api.dto.request.company.CompanyUpdateRequest;
-import com.khanghn.careerspark_api.dto.response.company.CompanyResponse;
 import com.khanghn.careerspark_api.exception.black.BadRequestException;
 import com.khanghn.careerspark_api.mapper.CompanyMapper;
 import com.khanghn.careerspark_api.mapper.LocationMapper;
@@ -32,12 +31,12 @@ public class CompanyServiceImp implements CompanyService {
     private final UserRepository userRepository;
 
     @Override
-    public List<CompanyResponse> getAllCompanies() {
-        return companyMapper.companyListToCompanyResponseList(companyRepository.findAll());
+    public List<Company> getAllCompanies() {
+        return companyRepository.findAll();
     }
 
     @Override
-    public CompanyResponse createCompany(UUID currentUserId, CompanyRequest req) {
+    public Company createCompany(UUID currentUserId, CompanyRequest req) {
         if (companyRepository.existsByNameIgnoreCase(req.name())) {
             throw new BadRequestException("This company's name already in use!");
         }
@@ -66,11 +65,11 @@ public class CompanyServiceImp implements CompanyService {
         newCompany.setCreatedBy(creator);
         companyRepository.save(newCompany);
 
-        return companyMapper.companyToCompanyResponse(newCompany);
+        return newCompany;
     }
 
     @Override
-    public CompanyResponse updateCompany(UUID id, CompanyUpdateRequest req) {
+    public Company updateCompany(UUID id, CompanyUpdateRequest req) {
         Company existsCompany = companyRepository
                 .findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Company not found!"));
@@ -106,10 +105,8 @@ public class CompanyServiceImp implements CompanyService {
                                 .build();
                         return locationRepository.save(newLocation);
                 });
-
         existsCompany.setLocation(location);
-        Company updateCompany = companyRepository.save(existsCompany);
 
-        return companyMapper.companyToCompanyResponse(updateCompany);
+        return companyRepository.save(existsCompany);
     }
 }

@@ -2,7 +2,6 @@ package com.khanghn.careerspark_api.service.subscription;
 
 import com.khanghn.careerspark_api.dto.request.subscription.SubscriptionPackageRequest;
 import com.khanghn.careerspark_api.dto.request.subscription.SubscriptionPackageUpdateRequest;
-import com.khanghn.careerspark_api.dto.response.subscription.SubscriptionPackageResponse;
 import com.khanghn.careerspark_api.exception.black.BadRequestException;
 import com.khanghn.careerspark_api.mapper.SubscriptionPackageMapper;
 import com.khanghn.careerspark_api.model.SubscriptionPackage;
@@ -25,14 +24,12 @@ public class SubscriptionPackageServiceImp implements SubscriptionPackageService
     private final SubscriptionPackageMapper subscriptionPackageMapper;
 
     @Override
-    public List<SubscriptionPackageResponse> getAllSubscriptionPackages() {
-        List<SubscriptionPackage> subscriptionPackages = subscriptionPackageRepository.findAll();
-
-        return subscriptionPackageMapper.subscriptionPackageListToSubscriptionPackageResponseList(subscriptionPackages);
+    public List<SubscriptionPackage> getSubscriptionPackages() {
+        return subscriptionPackageRepository.findAll();
     }
 
     @Override
-    public SubscriptionPackageResponse createSubscriptionPackage(SubscriptionPackageRequest req) {
+    public SubscriptionPackage createSubscriptionPackage(SubscriptionPackageRequest req) {
         if (subscriptionPackageRepository.existsByNameIgnoreCase(req.name().trim())) {
             throw new BadRequestException("Package's name already exists!");
         }
@@ -40,11 +37,11 @@ public class SubscriptionPackageServiceImp implements SubscriptionPackageService
         SubscriptionPackage newSubscriptionPackage = subscriptionPackageMapper.subscriptionPackageRequestToSubscriptionPackage(req);
         subscriptionPackageRepository.save(newSubscriptionPackage);
 
-        return subscriptionPackageMapper.subscriptionPackageToSubscriptionPackageResponse(newSubscriptionPackage);
+        return newSubscriptionPackage;
     }
 
     @Override
-    public SubscriptionPackageResponse updateSubscriptionPackage(UUID id, SubscriptionPackageUpdateRequest req) {
+    public SubscriptionPackage updateSubscriptionPackage(UUID id, SubscriptionPackageUpdateRequest req) {
         SubscriptionPackage existingPackage = subscriptionPackageRepository
                 .findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Subscription package with id " + id + " not found!"));
@@ -59,9 +56,7 @@ public class SubscriptionPackageServiceImp implements SubscriptionPackageService
         }
 
         subscriptionPackageMapper.updateFromRequest(req, existingPackage);
-        SubscriptionPackage updatedPackage = subscriptionPackageRepository.save(existingPackage);
-
-        return subscriptionPackageMapper.subscriptionPackageToSubscriptionPackageResponse(updatedPackage);
+        return subscriptionPackageRepository.save(existingPackage);
     }
 
     @Override
