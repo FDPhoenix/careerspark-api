@@ -31,12 +31,22 @@ public class Sector {
     private String iconUrl;
     private String description;
 
+    @Column(name = "n_job")
+    private long jobNumber = 0;
+
+    @Builder.Default
     @Column(name = "sort_order")
     private Integer sortOrder = 0;
 
+    @Builder.Default
     @Column(name = "is_available")
     private boolean isAvailable = true;
 
-    @OneToMany(mappedBy = "sector")
+    @OneToMany
+    @JoinColumn(name = "sector_id")
+    private Set<Job> jobs = new HashSet<>();
+
+    @OneToMany
+    @JoinColumn(name = "sector_id")
     private Set<Position> positions = new HashSet<>();
 }

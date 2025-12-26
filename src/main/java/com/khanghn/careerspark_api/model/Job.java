@@ -24,13 +24,9 @@ public class Job {
     @JoinColumn(name = "company_id")
     private Company company;
 
-    @ManyToMany
-    @JoinTable(
-            name = "job_sectors",
-            joinColumns = @JoinColumn(name = "job_id"),
-            inverseJoinColumns = @JoinColumn(name = "sector_id")
-    )
-    private Set<Sector> sectors = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "sector_id")
+    private Sector sector;
 
     @ManyToOne
     @JoinColumn(name = "position_id")

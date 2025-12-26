@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -26,6 +28,9 @@ public class Position {
     @Column(nullable = false, unique = true)
     private String slug;
 
+    @Column(name = "n_job")
+    private long jobNumber;
+
     @ManyToOne
     @JoinColumn(name = "sector_id")
     private Sector sector;
@@ -35,4 +40,8 @@ public class Position {
 
     @Column(name = "is_available")
     private boolean available = true;
+
+    @OneToMany
+    @JoinColumn(name = "position_id")
+    private Set<Job> jobs = new HashSet<>();
 }

@@ -15,5 +15,5 @@ public interface CompanyMapper {
     Company companyRequestToCompany(CompanyRequest companyRequest);
     CompanyResponse companyToCompanyResponse(Company company);
     List<CompanyResponse> companyListToCompanyResponseList(List<Company> companies);
-    void updateFromRequest(CompanyUpdateRequest request, @MappingTarget Company entity);
+    void updateFromRequest(CompanyUpdateRequest req, @MappingTarget Company entity);
 }

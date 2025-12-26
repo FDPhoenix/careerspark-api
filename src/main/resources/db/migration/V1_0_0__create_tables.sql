@@ -59,8 +59,6 @@ CREATE TABLE IF NOT EXISTS companies (
     updated_at      		    TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
-
-
 -- 5. Sectors (Chỉ những ngành ví dụ như là IT, Marketing, )
 CREATE TABLE IF NOT EXISTS sectors (
     id 						    UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
