@@ -1,7 +1,6 @@
 package com.khanghn.careerspark_api.exception.handler;
 
 import com.khanghn.careerspark_api.dto.ResponseObject;
-import com.khanghn.careerspark_api.dto.response.exception.ExceptionDTO;
 import com.khanghn.careerspark_api.exception.black.BadRequestException;
 import com.khanghn.careerspark_api.exception.black.UnauthorizedException;
 import jakarta.persistence.EntityNotFoundException;
@@ -15,31 +14,46 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseObject<ExceptionDTO> handleGeneralException(Exception ex) {
-        return ResponseObject.error(new ExceptionDTO("500", ex.getMessage()));
+    public ResponseObject<Void> handleGeneralException(Exception ex) {
+        return ResponseObject.error(
+                "INTERNAL_SERVER_ERROR",
+                ex.getMessage()
+        );
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseObject<ExceptionDTO> handleNotFound(EntityNotFoundException ex) {
-        return ResponseObject.error(new ExceptionDTO("404", ex.getMessage()));
+    public ResponseObject<Void> handleNotFound(EntityNotFoundException ex) {
+        return ResponseObject.error(
+                "ENTITY_NOT_FOUND",
+                ex.getMessage()
+        );
     }
 
     @ExceptionHandler(UnauthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ResponseObject<ExceptionDTO> handleUnauthorized(UnauthorizedException ex) {
-        return ResponseObject.error(new ExceptionDTO("401", ex.getMessage()));
+    public ResponseObject<Void> handleUnauthorized(UnauthorizedException ex) {
+        return ResponseObject.error(
+                "AUTH_UNAUTHORIZED",
+                ex.getMessage()
+        );
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseObject<ExceptionDTO> handleDataIntegrity(DataIntegrityViolationException ex) {
-        return ResponseObject.error(new ExceptionDTO("400", ex.getMessage()));
+    public ResponseObject<Void> handleDataIntegrity(DataIntegrityViolationException ex) {
+        return ResponseObject.error(
+                "DATA_INTEGRITY_VIOLATION",
+                ex.getMessage()
+        );
     }
 
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseObject<ExceptionDTO> handleBadRequest(BadRequestException ex) {
-        return ResponseObject.error(new ExceptionDTO("400", ex.getMessage()));
+    public ResponseObject<Void> handleBadRequest(BadRequestException ex) {
+        return ResponseObject.error(
+                "BAD_REQUEST",
+                ex.getMessage()
+        );
     }
 }

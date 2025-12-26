@@ -25,21 +25,30 @@ public class SubscriptionPackageController {
     @GetMapping("/")
     public ResponseObject<List<SubscriptionPackageResponse>> getAllSubscriptionPackages() {
         List<SubscriptionPackage> subscriptionPackages = subscriptionPackageService.getSubscriptionPackages();
-        return ResponseObject.success(subscriptionPackageMapper.subscriptionPackageListToSubscriptionPackageResponseList(subscriptionPackages));
+        return ResponseObject.success(
+                "Get subscription packages successfully",
+                subscriptionPackageMapper.subscriptionPackageListToSubscriptionPackageResponseList(subscriptionPackages)
+        );
     }
 
     @PostMapping("/")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseObject<SubscriptionPackageResponse> createSubscriptionPackage(@Valid @RequestBody SubscriptionPackageRequest req) {
         SubscriptionPackage newPackage = subscriptionPackageService.createSubscriptionPackage(req);
-        return ResponseObject.success(subscriptionPackageMapper.subscriptionPackageToSubscriptionPackageResponse(newPackage));
+        return ResponseObject.success(
+                "Create subscription package successfully",
+                subscriptionPackageMapper.subscriptionPackageToSubscriptionPackageResponse(newPackage)
+        );
     }
 
     @PutMapping("/")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseObject<SubscriptionPackageResponse>  updateSubscriptionPackage(@RequestParam String id, @RequestBody SubscriptionPackageUpdateRequest req) {
+    public ResponseObject<SubscriptionPackageResponse> updateSubscriptionPackage(@RequestParam String id, @RequestBody SubscriptionPackageUpdateRequest req) {
         SubscriptionPackage updatePackage = subscriptionPackageService.updateSubscriptionPackage(UUID.fromString(id), req);
-        return ResponseObject.success(subscriptionPackageMapper.subscriptionPackageToSubscriptionPackageResponse(updatePackage));
+        return ResponseObject.success(
+                "Update subscription package successfully",
+                subscriptionPackageMapper.subscriptionPackageToSubscriptionPackageResponse(updatePackage)
+        );
     }
 
     @DeleteMapping("/")

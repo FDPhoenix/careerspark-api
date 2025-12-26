@@ -30,7 +30,10 @@ public class CompanyController {
     @GetMapping("/")
     public ResponseObject<List<CompanyResponse>> listAllCompany() {
         List<Company> companies = companyService.getAllCompanies();
-        return ResponseObject.success(companyMapper.companyListToCompanyResponseList(companies));
+        return ResponseObject.success(
+                "Fetch all companies successfully",
+                companyMapper.companyListToCompanyResponseList(companies)
+        );
     }
 
     @SecurityRequirement(name = "bearerAuth")
@@ -46,13 +49,19 @@ public class CompanyController {
         UUID currentUserId = customUserDetails.getId();
 
         Company newCompany = companyService.createCompany(currentUserId, req);
-        return ResponseObject.success(companyMapper.companyToCompanyResponse(newCompany));
+        return ResponseObject.success(
+                "Create company successfully",
+                companyMapper.companyToCompanyResponse(newCompany)
+        );
     }
 
     @SecurityRequirement(name = "bearerAuth")
     @PutMapping("/")
     public ResponseObject<CompanyResponse> updateCompany(@RequestParam String id, @Valid @RequestBody CompanyUpdateRequest req) {
         Company updateCompany = companyService.updateCompany(UUID.fromString(id), req);
-        return ResponseObject.success(companyMapper.companyToCompanyResponse(updateCompany));
+        return ResponseObject.success(
+                "Update company successfully",
+                companyMapper.companyToCompanyResponse(updateCompany)
+        );
     }
 }

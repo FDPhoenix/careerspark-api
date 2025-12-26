@@ -35,23 +35,29 @@ public class AuthController {
     @PostMapping("/resend-otp")
     public ResponseObject<String> resendOTP(@RequestParam String email) {
         verificationOtpService.resendOtp(email);
-        return  ResponseObject.success("Email resend successfully");
+        return ResponseObject.success("Email resend successfully");
     }
 
     @PostMapping("/login")
-    public ResponseObject<AuthResponse> login(@Valid @RequestBody LoginRequest request){
+    public ResponseObject<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
         AuthResponse authResponse = authService.login(request);
-        return ResponseObject.success(authResponse);
+        return ResponseObject.success(
+                "Login successfully",
+                authResponse
+        );
     }
 
     @PostMapping("/refresh")
     public ResponseObject<AccessToken> reissueAccessToken(@RequestBody RefreshRequest req) {
         AccessToken accessToken = authService.reissueAccessToken(req.refreshToken());
-        return ResponseObject.success(accessToken);
+        return ResponseObject.success(
+                "Reissue access token successfully",
+                accessToken
+        );
     }
 
-    @SecurityRequirement(name = "bearerAuth")
     @PostMapping("/logout")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseObject<String> logout(@RequestBody RefreshRequest req) {
         authService.logout(req.refreshToken());
         return ResponseObject.success("Logout successfully");
