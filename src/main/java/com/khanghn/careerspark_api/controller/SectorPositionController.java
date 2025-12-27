@@ -2,11 +2,9 @@ package com.khanghn.careerspark_api.controller;
 
 import com.khanghn.careerspark_api.dto.ResponseObject;
 import com.khanghn.careerspark_api.dto.response.position.PositionResponse;
-import com.khanghn.careerspark_api.mapper.PositionMapper;
-import com.khanghn.careerspark_api.service.position.PositionService;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,16 +12,12 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("${server.base-path}/positions")
-public class PositionController {
-    private PositionService positionService;
-    private PositionMapper positionMapper;
-
+@RequestMapping("${server.base-path}/sectors/{sectorId}/positions")
+public class SectorPositionController {
     @GetMapping("/")
-    @SecurityRequirement(name = "bearer")
-    public ResponseObject<List<PositionResponse>> getAllPositions() {
+    public ResponseObject<List<PositionResponse>> getPositionsBySectorId(@PathVariable String sectorId) {
         return ResponseObject.success(
-                "Fetch all positions successfully",
+                "Fetch positions for sector " + sectorId + " successfully",
                 null
         );
     }

@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/packages")
+@RequestMapping("${server.base-path}/packages")
 public class SubscriptionPackageController {
     private final SubscriptionPackageService subscriptionPackageService;
     private final SubscriptionPackageMapper subscriptionPackageMapper;
@@ -32,7 +32,7 @@ public class SubscriptionPackageController {
     }
 
     @PostMapping("/")
-    @SecurityRequirement(name = "bearerAuth")
+    @SecurityRequirement(name = "bearer")
     public ResponseObject<SubscriptionPackageResponse> createSubscriptionPackage(@Valid @RequestBody SubscriptionPackageRequest req) {
         SubscriptionPackage newPackage = subscriptionPackageService.createSubscriptionPackage(req);
         return ResponseObject.success(
@@ -42,7 +42,7 @@ public class SubscriptionPackageController {
     }
 
     @PutMapping("/")
-    @SecurityRequirement(name = "bearerAuth")
+    @SecurityRequirement(name = "bearer")
     public ResponseObject<SubscriptionPackageResponse> updateSubscriptionPackage(@RequestParam String id, @RequestBody SubscriptionPackageUpdateRequest req) {
         SubscriptionPackage updatePackage = subscriptionPackageService.updateSubscriptionPackage(UUID.fromString(id), req);
         return ResponseObject.success(
@@ -52,7 +52,7 @@ public class SubscriptionPackageController {
     }
 
     @DeleteMapping("/")
-    @SecurityRequirement(name = "bearerAuth")
+    @SecurityRequirement(name = "bearer")
     public ResponseObject<String> deleteSubscriptionPackage(@RequestParam String id) {
         subscriptionPackageService.deleteSubscriptionPackage(UUID.fromString(id));
         return ResponseObject.success("Delete subscription package successfully");

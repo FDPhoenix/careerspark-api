@@ -1,8 +1,7 @@
 server:
   port: 8080
   forward-headers-strategy: native
-  servlet:
-    context-path: /api
+  base-path: /api
 
 app:
   frontend:

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/jobs")
+@RequestMapping("${server.base-path}/jobs")
 public class JobController {
 
 }

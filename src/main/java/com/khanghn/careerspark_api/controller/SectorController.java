@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/sectors")
+@RequestMapping("${server.base-path}/sectors")
 public class SectorController {
     private final SectorService sectorService;
     private final SectorMapper sectorMapper;
@@ -32,7 +32,7 @@ public class SectorController {
     }
 
     @GetMapping("/all")
-    @SecurityRequirement(name = "bearerAuth")
+    @SecurityRequirement(name = "bearer")
     public ResponseObject<List<SectorResponse>> getAllSector() {
         List<Sector> allSectors = sectorService.getAllSector();
         return ResponseObject.success(
@@ -42,7 +42,7 @@ public class SectorController {
     }
 
     @PostMapping("/")
-    @SecurityRequirement(name = "bearerAuth")
+    @SecurityRequirement(name = "bearer")
     public ResponseObject<SectorResponse> createSector(@Valid @RequestBody SectorRequest req) {
         Sector newSector = sectorService.createSector(req);
         return ResponseObject.success(
@@ -52,7 +52,7 @@ public class SectorController {
     }
 
     @PutMapping("/")
-    @SecurityRequirement(name = "bearerAuth")
+    @SecurityRequirement(name = "bearer")
     public ResponseObject<SectorResponse> updateSector(@RequestParam String sectorId, @Valid @RequestBody SectorUpdateRequest req) {
         Sector updatedSector = sectorService.updateSector(UUID.fromString(sectorId), req);
         return ResponseObject.success(

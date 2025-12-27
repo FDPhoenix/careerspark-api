@@ -28,12 +28,12 @@ public class Position {
     @Column(nullable = false, unique = true)
     private String slug;
 
-    @Column(name = "n_job")
-    private long jobNumber;
-
     @ManyToOne
     @JoinColumn(name = "sector_id")
     private Sector sector;
+
+    @Column(name = "n_job")
+    private long jobNumber;
 
     @Column(name = "sort_order")
     private int sortOrder = 0;

@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/candidates")
+@RequestMapping("${server.base-path}/candidates")
 public class CandidateProfileController {
 }

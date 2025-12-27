@@ -57,7 +57,7 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    @SecurityRequirement(name = "bearerAuth")
+    @SecurityRequirement(name = "bearer")
     public ResponseObject<String> logout(@RequestBody RefreshRequest req) {
         authService.logout(req.refreshToken());
         return ResponseObject.success("Logout successfully");
