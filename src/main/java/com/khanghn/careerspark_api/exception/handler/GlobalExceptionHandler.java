@@ -6,6 +6,7 @@ import com.khanghn.careerspark_api.exception.black.UnauthorizedException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -26,6 +27,15 @@ public class GlobalExceptionHandler {
     public ResponseObject<Void> handleNotFound(EntityNotFoundException ex) {
         return ResponseObject.error(
                 "ENTITY_NOT_FOUND",
+                ex.getMessage()
+        );
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ResponseObject<Void> handleAccessDenied(AccessDeniedException ex) {
+        return ResponseObject.error(
+                "AUTH_FORBIDDEN",
                 ex.getMessage()
         );
     }

@@ -13,19 +13,19 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("${server.base-path}/users")
+@RequestMapping("${server.base-path}")
 public class UserController {
     private final UserService userService;
 
+    @PutMapping("/users/password")
     @SecurityRequirement(name = "bearer")
-    @PutMapping("/password")
     public ResponseObject<String> changePassword(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody ChangePasswordRequestDTO req){
         userService.changePassword(customUserDetails.getId(), req);
         return ResponseObject.success("Password changed successfully!");
     }
 
+    @DeleteMapping("/users")
     @SecurityRequirement(name = "bearer")
-    @DeleteMapping("/")
     public ResponseObject<String> changeUserStatus(@RequestParam String userId){
         userService.changeUserStatus(UUID.fromString(userId));
         return ResponseObject.success("Change user's status successfully!");

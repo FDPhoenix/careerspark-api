@@ -11,13 +11,18 @@ import com.khanghn.careerspark_api.model.User;
 import com.khanghn.careerspark_api.repository.CompanyRepository;
 import com.khanghn.careerspark_api.repository.LocationRepository;
 import com.khanghn.careerspark_api.repository.UserRepository;
+import com.khanghn.careerspark_api.security.CustomUserDetails;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Slf4j
@@ -74,6 +79,15 @@ public class CompanyServiceImp implements CompanyService {
                 .findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Company not found!"));
 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Objects.requireNonNull(auth);
+        CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+
+        Objects.requireNonNull(userDetails);
+        if (!userDetails.getId().equals(existsCompany.getCreatedBy().getId())) {
+            throw new AccessDeniedException("You are not allowed to update this company!");
+        }
+
         if (req.name() != null && !req.name().trim().isEmpty()) {
             String newName = req.name().trim();
             if (!existsCompany.getName().equalsIgnoreCase(newName)) {
@@ -97,16 +111,15 @@ public class CompanyServiceImp implements CompanyService {
                         existsCompany.getLocation().getCity(),
                         existsCompany.getLocation().getWard()
                 ).orElseGet(() -> {
-                        Location newLocation = Location.builder()
-                                .country(existsCompany.getLocation().getCountry())
-                                .region(existsCompany.getLocation().getRegion())
-                                .city(existsCompany.getLocation().getCity())
-                                .ward(existsCompany.getLocation().getWard())
-                                .build();
+                        Location newLocation = new Location();
+                        newLocation.setCountry(existsCompany.getLocation().getCountry());
+                        newLocation.setRegion(existsCompany.getLocation().getRegion());
+                        newLocation.setCity(existsCompany.getLocation().getCity());
+                        newLocation.setWard(existsCompany.getLocation().getWard());
                         return locationRepository.save(newLocation);
                 });
-        existsCompany.setLocation(location);
 
+        existsCompany.setLocation(location);
         return companyRepository.save(existsCompany);
     }
 }

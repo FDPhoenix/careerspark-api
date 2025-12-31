@@ -2,6 +2,8 @@ package com.khanghn.careerspark_api.dto.request.location;
 
 import jakarta.validation.constraints.NotBlank;
 
+import java.math.BigDecimal;
+
 public record LocationRequest(
         @NotBlank(message = "Country is required!")
         String country,
@@ -12,6 +14,9 @@ public record LocationRequest(
         String city,
 
         @NotBlank(message = "Ward is required!")
-        String ward
+        String ward,
+
+        BigDecimal lat,
+        BigDecimal lng
 ) {
 }

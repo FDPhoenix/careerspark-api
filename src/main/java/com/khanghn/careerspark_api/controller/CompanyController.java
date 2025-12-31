@@ -22,12 +22,12 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("${server.base-path}/companies")
+@RequestMapping("${server.base-path}")
 public class CompanyController {
     private final CompanyService companyService;
     private final CompanyMapper companyMapper;
 
-    @GetMapping("/")
+    @GetMapping("/companies")
     public ResponseObject<List<CompanyResponse>> listAllCompany() {
         List<Company> companies = companyService.getAllCompanies();
         return ResponseObject.success(
@@ -36,7 +36,7 @@ public class CompanyController {
         );
     }
 
-    @PostMapping("/")
+    @PostMapping("/companies")
     @SecurityRequirement(name = "bearer")
     public ResponseObject<CompanyResponse> createCompany(@Valid @RequestBody CompanyRequest req) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -55,7 +55,7 @@ public class CompanyController {
         );
     }
 
-    @PutMapping("/")
+    @PutMapping("/companies")
     @SecurityRequirement(name = "bearer")
     public ResponseObject<CompanyResponse> updateCompany(@RequestParam String id, @Valid @RequestBody CompanyUpdateRequest req) {
         Company updateCompany = companyService.updateCompany(UUID.fromString(id), req);

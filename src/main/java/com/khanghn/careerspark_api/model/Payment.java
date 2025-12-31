@@ -2,7 +2,6 @@ package com.khanghn.careerspark_api.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
@@ -12,7 +11,6 @@ import java.util.UUID;
 
 @Entity
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "payments")
@@ -41,7 +39,6 @@ public class Payment {
     @Enumerated(EnumType.STRING)
     private PaymentStatus status = PaymentStatus.PENDING;
 
-    @Builder.Default
     @Column(name = "paid_at")
     private Instant paidAt = Instant.now();
 

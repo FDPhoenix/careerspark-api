@@ -41,14 +41,18 @@ public class SecurityConfig {
     };
 
     private static final PathPatternRequestMatcher[] ADMIN_ENDPOINTS = {
-            PathPatternRequestMatcher.pathPattern(HttpMethod.POST, "/packages/"),
-            PathPatternRequestMatcher.pathPattern(HttpMethod.PUT, "/packages/**"),
-            PathPatternRequestMatcher.pathPattern(HttpMethod.DELETE, "/packages/**"),
-            PathPatternRequestMatcher.pathPattern(HttpMethod.DELETE, "/users/"),
+            //Package API
+            PathPatternRequestMatcher.pathPattern(HttpMethod.POST, "/api/packages"),
+            PathPatternRequestMatcher.pathPattern(HttpMethod.PUT, "/api/packages**"),
+            PathPatternRequestMatcher.pathPattern(HttpMethod.DELETE, "/api/packages**"),
+
+            //User API
+            PathPatternRequestMatcher.pathPattern(HttpMethod.DELETE, "/api/users"),
     };
 
     private static final PathPatternRequestMatcher[] RECRUITER_ENDPOINTS = {
-            PathPatternRequestMatcher.pathPattern(HttpMethod.POST, "/companies/"),
+            PathPatternRequestMatcher.pathPattern(HttpMethod.POST, "/api/companies"),
+            PathPatternRequestMatcher.pathPattern(HttpMethod.PUT, "/api/companies**"),
     };
 
     @Bean

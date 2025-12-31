@@ -11,7 +11,6 @@ import java.util.UUID;
 
 @Entity
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
@@ -36,17 +35,12 @@ public class User {
     private String phone;
     private String avatarUrl;
 
-    @Builder.Default
     private boolean isVerified = false;
-
-    @Builder.Default
     private boolean isActive = true;
 
-    @Builder.Default
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Instant createdAt = Instant.now();
 
-    @Builder.Default
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Instant updatedAt = Instant.now();
 

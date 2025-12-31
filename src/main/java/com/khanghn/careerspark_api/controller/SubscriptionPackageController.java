@@ -17,12 +17,12 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("${server.base-path}/packages")
+@RequestMapping("${server.base-path}")
 public class SubscriptionPackageController {
     private final SubscriptionPackageService subscriptionPackageService;
     private final SubscriptionPackageMapper subscriptionPackageMapper;
 
-    @GetMapping("/")
+    @GetMapping("/packages")
     public ResponseObject<List<SubscriptionPackageResponse>> getAllSubscriptionPackages() {
         List<SubscriptionPackage> subscriptionPackages = subscriptionPackageService.getSubscriptionPackages();
         return ResponseObject.success(
@@ -31,7 +31,7 @@ public class SubscriptionPackageController {
         );
     }
 
-    @PostMapping("/")
+    @PostMapping("/packages")
     @SecurityRequirement(name = "bearer")
     public ResponseObject<SubscriptionPackageResponse> createSubscriptionPackage(@Valid @RequestBody SubscriptionPackageRequest req) {
         SubscriptionPackage newPackage = subscriptionPackageService.createSubscriptionPackage(req);
@@ -41,7 +41,7 @@ public class SubscriptionPackageController {
         );
     }
 
-    @PutMapping("/")
+    @PutMapping("/packages")
     @SecurityRequirement(name = "bearer")
     public ResponseObject<SubscriptionPackageResponse> updateSubscriptionPackage(@RequestParam String id, @RequestBody SubscriptionPackageUpdateRequest req) {
         SubscriptionPackage updatePackage = subscriptionPackageService.updateSubscriptionPackage(UUID.fromString(id), req);
@@ -51,7 +51,7 @@ public class SubscriptionPackageController {
         );
     }
 
-    @DeleteMapping("/")
+    @DeleteMapping("/packages")
     @SecurityRequirement(name = "bearer")
     public ResponseObject<String> deleteSubscriptionPackage(@RequestParam String id) {
         subscriptionPackageService.deleteSubscriptionPackage(UUID.fromString(id));

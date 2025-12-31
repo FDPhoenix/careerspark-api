@@ -2,7 +2,6 @@ package com.khanghn.careerspark_api.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
@@ -14,7 +13,6 @@ import java.util.UUID;
 
 @Entity
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user_subscriptions")
@@ -47,7 +45,6 @@ public class UserSubscription {
     @Column(name = "status", nullable = false)
     private SubscriptionStatus status = SubscriptionStatus.ACTIVE;
 
-    @Builder.Default
     @Column(name = "created_at")
     private Instant createAt = Instant.now();
 

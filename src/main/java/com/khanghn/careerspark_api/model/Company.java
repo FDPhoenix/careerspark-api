@@ -11,7 +11,6 @@ import java.util.UUID;
 
 @Entity
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "companies")
@@ -44,11 +43,9 @@ public class Company {
     @Column(name = "is_verified")
     private boolean isVerified = false;
 
-    @Builder.Default
     @Column(name = "created_at")
     private Instant createdAt = Instant.now();
 
-    @Builder.Default
     @Column(name = "updated_at")
     private Instant updatedAt =  Instant.now();
 

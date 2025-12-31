@@ -2,7 +2,6 @@ package com.khanghn.careerspark_api.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
@@ -13,7 +12,6 @@ import java.util.UUID;
 
 @Entity
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "sectors")
@@ -34,11 +32,9 @@ public class Sector {
     @Column(name = "n_job")
     private long jobNumber = 0;
 
-    @Builder.Default
     @Column(name = "sort_order")
     private Integer sortOrder = 0;
 
-    @Builder.Default
     @Column(name = "is_available")
     private boolean isAvailable = true;
 

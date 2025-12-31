@@ -2,7 +2,6 @@ package com.khanghn.careerspark_api.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
@@ -12,7 +11,6 @@ import java.util.*;
 
 @Entity
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "subscription_packages")
@@ -42,7 +40,6 @@ public class SubscriptionPackage {
     @Column(name = "description")
     private String description;
 
-    @Builder.Default
     private Instant createdAt =  Instant.now();
 
     @OneToMany(mappedBy = "subscriptionPackage")

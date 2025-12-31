@@ -11,7 +11,6 @@ import java.util.UUID;
 
 @Entity
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "jobs")
@@ -62,26 +61,18 @@ public class Job {
 
     private Integer salaryMin;
     private Integer salaryMax;
-
-    @Builder.Default
     private String salaryCurrency = "VND";
-
-    @Builder.Default
     private boolean isSalaryVisible = true;
 
-    @Builder.Default
     @Column(name = "display_days", nullable = false)
     private Integer displayDays = 30;
 
-    @Builder.Default
     @Enumerated(EnumType.STRING)
     private JobStatus status = JobStatus.ACTIVE;
 
-    @Builder.Default
     @Column(name = "views_count")
     private long viewsCount = 0;
 
-    @Builder.Default
     @Column(name = "is_featured")
     private boolean isFeatured = false;
 
