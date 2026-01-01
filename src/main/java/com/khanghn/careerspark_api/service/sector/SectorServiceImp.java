@@ -40,6 +40,11 @@ public class SectorServiceImp implements SectorService {
     }
 
     @Override
+    public boolean existsBySectorId(UUID sectorId) {
+        return !sectorRepository.existsById(sectorId);
+    }
+
+    @Override
     public Sector createSector(SectorRequest req) {
         if (sectorRepository.existsBySlug(req.slug())) throw new BadRequestException("Sector slug is already exists");
 

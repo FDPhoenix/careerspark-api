@@ -11,7 +11,7 @@ import java.util.UUID;
 @Service
 public interface PositionService {
     List<Position> getAllPositions();
-    List<Position> getPositionsBySectorId(UUID id);
+    List<Position> getPositionsBySectorId(UUID sectorId);
     Position createPosition(PositionRequest req);
     Position updatePosition(UUID positionId, PositionUpdateRequest req);
 }

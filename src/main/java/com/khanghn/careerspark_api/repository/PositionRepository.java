@@ -10,4 +10,5 @@ import java.util.UUID;
 @Repository
 public interface PositionRepository extends JpaRepository<Position, UUID> {
     List<Position> findBySectorId(UUID sectorId);
+    boolean existsBySlug(String slug);
 }
