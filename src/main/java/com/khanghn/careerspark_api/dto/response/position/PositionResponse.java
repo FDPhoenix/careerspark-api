@@ -1,7 +1,5 @@
 package com.khanghn.careerspark_api.dto.response.position;
 
-import com.khanghn.careerspark_api.dto.response.sector.SectorResponse;
-
 import java.util.UUID;
 
 public record PositionResponse(
@@ -11,6 +9,6 @@ public record PositionResponse(
         UUID sectorId,
         long jobNumber,
         Integer sortOrder,
-        boolean isAvailable
+        boolean available
 ) {
 }

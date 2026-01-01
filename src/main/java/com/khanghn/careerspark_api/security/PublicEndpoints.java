@@ -17,6 +17,8 @@ public final class PublicEndpoints {
             PathPatternRequestMatcher.pathPattern(HttpMethod.GET, basePath + "/packages/**"),
             PathPatternRequestMatcher.pathPattern(HttpMethod.GET, basePath + "/companies/**"),
             PathPatternRequestMatcher.pathPattern(HttpMethod.GET, basePath + "/sectors/**"),
+            PathPatternRequestMatcher.pathPattern(HttpMethod.GET, basePath + "/sectors/{sectorId}/positions"),
+            PathPatternRequestMatcher.pathPattern(HttpMethod.GET, basePath + "/positions"),
             PathPatternRequestMatcher.pathPattern(HttpMethod.GET, "/auth/oauth2/**"),
             PathPatternRequestMatcher.pathPattern(HttpMethod.POST, "/auth/login"),
             PathPatternRequestMatcher.pathPattern(HttpMethod.POST, "/auth/register"),

@@ -46,6 +46,16 @@ public class SecurityConfig {
             PathPatternRequestMatcher.pathPattern(HttpMethod.PUT, "/api/packages**"),
             PathPatternRequestMatcher.pathPattern(HttpMethod.DELETE, "/api/packages**"),
 
+            //Sector API
+            PathPatternRequestMatcher.pathPattern(HttpMethod.GET, "/api/sectors/all"),
+            PathPatternRequestMatcher.pathPattern(HttpMethod.POST, "/api/sectors"),
+            PathPatternRequestMatcher.pathPattern(HttpMethod.PUT, "/api/sectors**"),
+
+            //Position API
+            PathPatternRequestMatcher.pathPattern(HttpMethod.GET, "/api/positions"),
+            PathPatternRequestMatcher.pathPattern(HttpMethod.POST, "/api/positions"),
+            PathPatternRequestMatcher.pathPattern(HttpMethod.PUT, "/api/positions**"),
+
             //User API
             PathPatternRequestMatcher.pathPattern(HttpMethod.DELETE, "/api/users"),
     };

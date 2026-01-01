@@ -5,6 +5,7 @@ import com.khanghn.careerspark_api.dto.request.position.PositionUpdateRequest;
 import com.khanghn.careerspark_api.exception.black.BadRequestException;
 import com.khanghn.careerspark_api.mapper.PositionMapper;
 import com.khanghn.careerspark_api.model.Position;
+import com.khanghn.careerspark_api.model.Sector;
 import com.khanghn.careerspark_api.repository.PositionRepository;
 import com.khanghn.careerspark_api.service.sector.SectorService;
 import jakarta.persistence.EntityNotFoundException;
@@ -36,9 +37,10 @@ public class PositionServiceImp implements PositionService {
     @Override
     public Position createPosition(PositionRequest req) {
         if (positionRepository.existsBySlug(req.slug())) throw new BadRequestException("Position slug already exists");
-        if (sectorService.existsBySectorId(req.sectorId())) throw new EntityNotFoundException("Sector not found!");
+        Sector newSector = sectorService.getSectorById(UUID.fromString(req.sectorId()));
 
         Position newPosition = positionMapper.positionRequestToPosition(req);
+        newPosition.setSector(newSector);
         positionRepository.save(newPosition);
 
         return newPosition;
@@ -56,11 +58,15 @@ public class PositionServiceImp implements PositionService {
             }
         }
 
-        if (req.sectorId() != null) {
-            if (sectorService.existsBySectorId(req.sectorId())) throw new EntityNotFoundException("Sector not found!");
+        if ((req.slug() != null) && !req.slug().trim().isEmpty()) {
+            if (!sectorService.isSectorExist(UUID.fromString(req.sectorId()))) {
+                throw new BadRequestException("Sector not found!");
+            }
         }
+        Sector updateSector = sectorService.getSectorById(UUID.fromString(req.sectorId()));
 
         positionMapper.updateFromRequest(req, updatePosition);
+        updatePosition.setSector(updateSector);
         positionRepository.save(updatePosition);
 
         return updatePosition;

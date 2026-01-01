@@ -12,7 +12,8 @@ import java.util.UUID;
 public interface SectorService {
     List<Sector> getAllSector();
     List<Sector> getSectors(String type);
-    boolean existsBySectorId(UUID sectorId);
+    boolean isSectorExist(UUID id);
+    Sector getSectorById(UUID id);
     Sector createSector(SectorRequest req);
     Sector updateSector(UUID sectorId, SectorUpdateRequest req);
 }

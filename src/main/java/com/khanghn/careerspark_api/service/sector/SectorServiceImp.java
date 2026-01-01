@@ -40,8 +40,15 @@ public class SectorServiceImp implements SectorService {
     }
 
     @Override
-    public boolean existsBySectorId(UUID sectorId) {
-        return !sectorRepository.existsById(sectorId);
+    public boolean isSectorExist(UUID id) {
+        return sectorRepository.existsById(id);
+    }
+
+    @Override
+    public Sector getSectorById(UUID id) {
+        return sectorRepository
+                .findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Sector with id " + id + " not found"));
     }
 
     @Override
