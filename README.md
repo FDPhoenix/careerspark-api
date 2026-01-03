@@ -38,14 +38,14 @@ The system provides a smooth user experience with strong security, scalability, 
 | `POST /auth/register`                          | PUBLIC                                | This endpoint allows guests to create an account.              |
 | `POST /auth/login`                             | PUBLIC                                | Allows users to log into the system using the created account. |
 | `POST /auth/logout`                            | AUTHENTICATED                         | Revoke refresh token.                                          |
-| `POST /auth/refresh`                           | PUBLIC (REQUIRES VALID REFRESH TOKEN) | Reissue access token using refresh token.                      |
+| `POST /auth/refresh`                           | PUBLIC (Requires valid refresh token) | Reissue access token using refresh token.                      |
 | `POST /auth/resend-otp`                        | PUBLIC                                | Resend OTP for verification.                                   |
 | `POST /auth/verify-otp`                        | PUBLIC                                | Verify that the OTP entered by the user is correct.            |
-| `PUT /api/users/{userId}/password`             | AUTHENTICATED (OWNER)                 | Change user's password.                                        |
+| `PUT /api/users/{userId}/password`             | AUTHENTICATED (Owner)                 | Change user's password.                                        |
 | `PATCH /api/users/{userId}/active`             | ADMIN                                 | Deactivate user account.                                       |
 | `GET /api/companies`                           | ADMIN                                 | View all companies.                                            |
 | `GET /api/companies?approved=true`             | PUBLIC                                | View all approved companies.                                   |
-| `PUT /api/companies/{companyId}`               | RECRUITER (OWNER)                     | Update the existing company information.                       |
+| `PUT /api/companies/{companyId}`               | RECRUITER (Owner)                     | Update the existing company information.                       |
 | `POST /api/companies`                          | RECRUITER                             | Create a new company on the platform.                          |
 | `GET /api/sectors`                             | ADMIN                                 | View all sectors that exist on the platform.                   |
 | `GET /api/sectors?available=true`              | PUBLIC                                | View all available sectors.                                    |
