@@ -17,16 +17,16 @@ import java.util.UUID;
 public class UserController {
     private final UserService userService;
 
-    @PutMapping("/users/password")
+    @PutMapping("/users/{userId}/password")
     @SecurityRequirement(name = "bearer")
-    public ResponseObject<String> changePassword(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody ChangePasswordRequestDTO req){
-        userService.changePassword(customUserDetails.getId(), req);
+    public ResponseObject<String> changePassword(@AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable String userId, @RequestBody ChangePasswordRequestDTO req){
+        userService.changePassword(customUserDetails.getId(), UUID.fromString(userId), req);
         return ResponseObject.success("Password changed successfully!");
     }
 
-    @DeleteMapping("/users")
+    @PatchMapping("/users/{userId}/active")
     @SecurityRequirement(name = "bearer")
-    public ResponseObject<String> changeUserStatus(@RequestParam String userId){
+    public ResponseObject<String> changeUserStatus(@PathVariable String userId){
         userService.changeUserStatus(UUID.fromString(userId));
         return ResponseObject.success("Change user's status successfully!");
     }

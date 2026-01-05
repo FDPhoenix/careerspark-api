@@ -57,7 +57,7 @@ public class SecurityConfig {
             PathPatternRequestMatcher.pathPattern(HttpMethod.PUT, "/api/positions**"),
 
             //User API
-            PathPatternRequestMatcher.pathPattern(HttpMethod.DELETE, "/api/users"),
+            PathPatternRequestMatcher.pathPattern(HttpMethod.PATCH, "/api/users/{userId}/active"),
     };
 
     private static final PathPatternRequestMatcher[] RECRUITER_ENDPOINTS = {

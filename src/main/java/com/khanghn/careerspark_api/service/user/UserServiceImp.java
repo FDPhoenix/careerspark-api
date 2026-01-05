@@ -7,6 +7,7 @@ import com.khanghn.careerspark_api.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,10 +28,12 @@ public class UserServiceImp implements UserService{
     }
 
     @Override
-    public void changePassword(UUID userId, ChangePasswordRequestDTO req) {
+    public void changePassword(UUID userIdFromToken, UUID pathUserId, ChangePasswordRequestDTO req) {
         User user = userRepository
-                .findById(userId)
+                .findById(pathUserId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found!"));
+
+        if (userIdFromToken.equals(pathUserId)) throw new AccessDeniedException("You are not allowed to change other user's password!");
 
         if (passwordEncoder.matches(req.currentPassword(), user.getPasswordHash())) {
             if (req.newPassword().equals(req.confirmNewPassword())) {

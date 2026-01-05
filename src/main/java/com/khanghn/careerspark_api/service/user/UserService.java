@@ -9,6 +9,6 @@ import java.util.UUID;
 @Service
 public interface UserService {
     User findByEmail(String email);
-    void changePassword(UUID userId, ChangePasswordRequestDTO req);
+    void changePassword(UUID userIdFromToken, UUID pathUserId, ChangePasswordRequestDTO req);
     void changeUserStatus(UUID userId);
 }
