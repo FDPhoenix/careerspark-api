@@ -5,6 +5,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface EmailService {
-    String loadTemplate(String path);
     void sendOtpEmail(User user, String otp);
 }

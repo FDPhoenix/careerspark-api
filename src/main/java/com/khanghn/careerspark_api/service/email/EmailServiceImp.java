@@ -1,12 +1,14 @@
 package com.khanghn.careerspark_api.service.email;
 
 import com.khanghn.careerspark_api.model.User;
+import jakarta.annotation.PostConstruct;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
@@ -22,29 +24,31 @@ public class EmailServiceImp implements EmailService {
     @Value("${spring.mail.template-path}")
     private String templatePath;
 
-    @Override
-    public String loadTemplate(String path) {
+    private String cacheTemplate;
+
+    @PostConstruct
+    private void loadTemplate() {
         try {
-            return new String(Objects.requireNonNull(getClass()
+            cacheTemplate =  new String(Objects.requireNonNull(getClass()
                             .getClassLoader()
-                            .getResourceAsStream(path)).readAllBytes()
+                            .getResourceAsStream(templatePath)).readAllBytes()
             );
+
+            log.info("Email template loaded");
         } catch (IOException e) {
             log.error("Failed to load template", e);
-            return null;
         }
     }
 
+    @Async("emailExecutor")
     @Override
     public void sendOtpEmail(User user, String otp) {
         try {
-            String template = loadTemplate(templatePath);
-
-            if (Objects.isNull(template)) {
+            if (cacheTemplate == null) {
                 throw new FileNotFoundException("Template not found");
             }
 
-            template = template
+            String content = cacheTemplate
                     .replace("{{OTP}}", otp)
                     .replace("{{EXPIRE_MINUTES}}", String.valueOf(10));
 
@@ -52,8 +56,8 @@ public class EmailServiceImp implements EmailService {
             MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
 
             helper.setTo(user.getEmail());
-            helper.setSubject("[Careerspark] Verification OTP");
-            helper.setText(template, true);
+            helper.setSubject("[CareerSpark] Verification OTP");
+            helper.setText(content, true);
 
             mailSender.send(message);
         }
