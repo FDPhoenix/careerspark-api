@@ -10,8 +10,7 @@ import java.util.UUID;
 
 @Service
 public interface SectorService {
-    List<Sector> getAllSector();
-    List<Sector> getSectors(String type);
+    List<Sector> getSectors(Boolean available, Boolean popular);
     boolean isSectorExist(UUID id);
     Sector getSectorById(UUID id);
     Sector createSector(SectorRequest req);

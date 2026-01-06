@@ -10,6 +10,7 @@ import com.khanghn.careerspark_api.service.sector.SectorService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,20 +24,16 @@ public class SectorController {
     private final SectorMapper sectorMapper;
 
     @GetMapping("/sectors")
-    public ResponseObject<List<SectorResponse>> getSectors(@RequestParam(value = "type", required = false, defaultValue = "available") String type) {
-        List<Sector> allSectors = sectorService.getSectors(type);
+    @PreAuthorize("""
+       hasRole("ADMIN") || (#available == true)
+    """)
+    public ResponseObject<List<SectorResponse>> getSectors(
+            @RequestParam(value = "available", required = false) Boolean available,
+            @RequestParam(value = "popular", required = false) Boolean popular
+    ) {
+        List<Sector> allSectors = sectorService.getSectors(available, popular);
         return ResponseObject.success(
                 "Fetch sectors successfully",
-                sectorMapper.sectorListToSectorResponseList(allSectors)
-        );
-    }
-
-    @GetMapping("/sectors/all")
-    @SecurityRequirement(name = "bearer")
-    public ResponseObject<List<SectorResponse>> getAllSector() {
-        List<Sector> allSectors = sectorService.getAllSector();
-        return ResponseObject.success(
-                "Fetch all sectors successfully",
                 sectorMapper.sectorListToSectorResponseList(allSectors)
         );
     }

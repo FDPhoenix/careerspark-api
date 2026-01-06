@@ -23,20 +23,24 @@ public class SectorServiceImp implements SectorService {
     private final SectorMapper sectorMapper;
 
     @Override
-    public List<Sector> getAllSector() {
-        return sectorRepository.findAll();
-    }
+    public List<Sector> getSectors(Boolean available, Boolean popular) {
+        if (Boolean.TRUE.equals(popular) && !Boolean.TRUE.equals(available)) {
+            throw new BadRequestException("Parameter 'popular' requires 'available=true'");
+        }
 
-    @Override
-    public List<Sector> getSectors(String type) {
-        return type.equals("popular") ?
-                sectorRepository.findByIsAvailable(true)
-                        .stream()
-                        .sorted(Comparator.comparingLong(Sector::getJobNumber).reversed())
-                        .limit(8)
-                        .toList()
-                :
-                sectorRepository.findByIsAvailable(true);
+        if (Boolean.TRUE.equals(available) && Boolean.TRUE.equals(popular)) {
+            return sectorRepository.findByIsAvailable(true)
+                    .stream()
+                    .sorted(Comparator.comparingLong(Sector::getJobNumber).reversed())
+                    .limit(8)
+                    .toList();
+        }
+
+        if (Boolean.TRUE.equals(available)) return sectorRepository.findByIsAvailable(true);
+
+        if (available != null && popular != null) return sectorRepository.findAll();
+
+        throw new BadRequestException("Invalid query parameters");
     }
 
     @Override
